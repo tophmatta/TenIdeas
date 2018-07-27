@@ -16,27 +16,52 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var contentTextView: UITextView!
     
     var placeholderLabel: UILabel!
+    var currentIdeaList: IdeaStore!
+    var currentIdea: Idea!
     
     @IBAction func nextButtonPressed(_ sender: Any) {
         
-        print("next")
+        // Storing UITextView text into idea object & appending to idea list
+        currentIdea.text  = contentTextView.text
+        currentIdeaList.allIdeas.append(currentIdea)
         
+        // Increase idea index for next idea
+        currentIdea.index += 1
+        pushNextViewOntoStack()
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
+        currentIdea.index -= 1
+        navigationController?.popViewController(animated: true)
+    }
+    @IBAction func finishButtonPressed(_ sender: Any) {
+        let ideaListArray = currentIdeaList.allIdeas
+        let ideaListTitle = currentIdeaList.ideaListTitle
         
-        print("back")
-
+        // Save list - UserDefaults
+        let defaults = UserDefaults.standard
+        defaults.setValue(try? PropertyListEncoder().encode(ideaListArray), forKey: ideaListTitle)
+        self.dismiss(animated: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         contentTextView.delegate = self
+        listNumberLabel.text = currentIdeaList.ideaListTitle
+        
+        if currentIdea.index == 0 {
+            currentIdea.index = 1
+        }
+        
+        ideaNumberLabel.text = String(currentIdea.index)
+        
+        // Logic expands UITextview as words are entered
         let fixedWidth = contentTextView.frame.size.width
         let newSize = contentTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
         contentTextView.frame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
         
+        // Logic for setting up UITextView placeholder parameters
         placeholderLabel = UILabel()
         placeholderLabel.text = "Start writing..."
         placeholderLabel.font = UIFont.italicSystemFont(ofSize: (contentTextView.font?.pointSize)!)
@@ -49,26 +74,31 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
 
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        
-        placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
+    func assignIndex(){
         
     }
     
+    func pushNextViewOntoStack(){
+        let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
+        destination.currentIdeaList = currentIdeaList
+        // Used struct instead of class for 'Idea' to create a copy instead of reference to be able to use below logic
+        destination.currentIdea = currentIdea
+        navigationController?.pushViewController(destination, animated: true)
+    }
+    
+    // Implements placeholder disappearing funcionality when begin to type
+    func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
+    }
+    
+    // Setting character count - checks # of characters each time text is changed by replacing the same text w/ itself
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
         return numberOfChars < 300
     }
     
-    
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        print("textViewDidEndEditing")
-//    }
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        print("textViewDidBeginEditing")
-//    }
-    
+    // Keyboard actions
     @IBAction func dismissKeyboard(sender: Any) {
         contentTextView.resignFirstResponder()
     }

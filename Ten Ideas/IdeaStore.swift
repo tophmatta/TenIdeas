@@ -9,7 +9,7 @@
 import UIKit
 
 class IdeaStore {
-    var allIdeas = [[Idea]]()
+    var allIdeas = [Idea]()
     var ideaListTitle: String
     
 //    func createIdea() -> Idea {

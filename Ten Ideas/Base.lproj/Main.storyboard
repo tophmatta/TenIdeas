@@ -53,11 +53,24 @@
                                     <action selector="startListSequence:" destination="4D7-XA-XDK" eventType="touchUpInside" id="HrT-qA-30V"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cjc-pF-MDX">
+                                <rect key="frame" x="165" y="368" width="44" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="7s4-i3-DyP"/>
+                                    <constraint firstAttribute="height" constant="30" id="E69-t5-DAB"/>
+                                </constraints>
+                                <state key="normal" title="Check"/>
+                                <connections>
+                                    <action selector="checkUserDefaults:" destination="4D7-XA-XDK" eventType="touchUpInside" id="8FB-wM-9Lm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Exu-XI-X3j" firstAttribute="centerY" secondItem="BH6-Cv-G7X" secondAttribute="centerY" id="564-C8-ljr"/>
                             <constraint firstItem="Exu-XI-X3j" firstAttribute="centerX" secondItem="BH6-Cv-G7X" secondAttribute="centerX" id="Ap1-vq-hHw"/>
+                            <constraint firstItem="Ngm-sw-c3V" firstAttribute="bottom" secondItem="Cjc-pF-MDX" secondAttribute="bottom" constant="269" id="cQ2-3Q-HvD"/>
+                            <constraint firstItem="Cjc-pF-MDX" firstAttribute="centerX" secondItem="BH6-Cv-G7X" secondAttribute="centerX" id="z9U-0T-dgy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ngm-sw-c3V"/>
                     </view>
@@ -80,17 +93,16 @@
                                     <constraint firstAttribute="width" constant="50" id="EIB-wb-Tyj"/>
                                     <constraint firstAttribute="height" constant="50" id="lKf-6S-U86"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="List number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nQk-9O-OlA">
-                                <rect key="frame" x="49" y="60" width="91" height="21"/>
+                                <rect key="frame" x="49" y="60" width="163" height="29"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="Kjr-5Y-7d9"/>
-                                    <constraint firstAttribute="width" constant="91" id="tn6-B6-a5F"/>
+                                    <constraint firstAttribute="height" constant="29" id="Kjr-5Y-7d9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -116,12 +128,23 @@
                                     <action selector="nextButtonPressed:" destination="1PO-SG-DDz" eventType="touchUpInside" id="n93-Rb-HQw"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.25" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="e3n-v4-aLq">
-                                <rect key="frame" x="49" y="147" width="277" height="135"/>
-                                <color key="backgroundColor" red="0.0" green="0.80000000000000004" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="e3n-v4-aLq">
+                                <rect key="frame" x="49" y="155" width="277" height="127"/>
+                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-16-6ua">
+                                <rect key="frame" x="167" y="617" width="41" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="41" id="Gfw-Ol-4uQ"/>
+                                    <constraint firstAttribute="height" constant="30" id="rVR-nA-qW5"/>
+                                </constraints>
+                                <state key="normal" title="Finish"/>
+                                <connections>
+                                    <action selector="finishButtonPressed:" destination="1PO-SG-DDz" eventType="touchUpInside" id="CXT-Lr-vs6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
@@ -132,11 +155,13 @@
                             <constraint firstItem="nQk-9O-OlA" firstAttribute="top" secondItem="whQ-vG-Ilt" secondAttribute="top" constant="40" id="Oux-GO-EYn"/>
                             <constraint firstItem="PJc-7F-fb1" firstAttribute="leading" secondItem="f1K-ZI-H6r" secondAttribute="trailing" constant="40" id="UrQ-Mk-JjZ"/>
                             <constraint firstItem="PJc-7F-fb1" firstAttribute="centerY" secondItem="SUX-UG-eGm" secondAttribute="centerY" id="V7m-wh-30I"/>
+                            <constraint firstItem="T3n-16-6ua" firstAttribute="centerX" secondItem="jTb-gq-NTr" secondAttribute="centerX" id="VRD-SM-VG2"/>
                             <constraint firstItem="e3n-v4-aLq" firstAttribute="centerX" secondItem="jTb-gq-NTr" secondAttribute="centerX" id="X4b-cX-cYF"/>
                             <constraint firstItem="f1K-ZI-H6r" firstAttribute="centerX" secondItem="jTb-gq-NTr" secondAttribute="centerX" id="czo-Ng-l8y"/>
                             <constraint firstItem="f1K-ZI-H6r" firstAttribute="leading" secondItem="SUX-UG-eGm" secondAttribute="trailing" constant="40" id="lNZ-vr-mFL"/>
                             <constraint firstItem="e3n-v4-aLq" firstAttribute="top" secondItem="nQk-9O-OlA" secondAttribute="bottom" constant="66" id="nQq-uA-suB"/>
                             <constraint firstItem="nQk-9O-OlA" firstAttribute="leading" secondItem="whQ-vG-Ilt" secondAttribute="leading" constant="49" id="ofV-Rr-dCS"/>
+                            <constraint firstItem="whQ-vG-Ilt" firstAttribute="bottom" secondItem="T3n-16-6ua" secondAttribute="bottom" constant="20" id="x4j-Ys-XLT"/>
                             <constraint firstItem="f1K-ZI-H6r" firstAttribute="top" relation="lessThanOrEqual" secondItem="e3n-v4-aLq" secondAttribute="bottom" constant="285" id="yvQ-bB-fkk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="whQ-vG-Ilt"/>

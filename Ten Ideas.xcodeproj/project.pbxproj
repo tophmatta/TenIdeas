@@ -64,7 +64,6 @@
 			children = (
 				6DD70F5020C0D90B00F6A762 /* Main.storyboard */,
 				6DD70F4C20C0D90B00F6A762 /* AppDelegate.swift */,
-				6DD70F5E20C0E0BF00F6A762 /* IdeasViewController.swift */,
 				6DD70F6020C0E42E00F6A762 /* Idea.swift */,
 				6D163C2020C6175C0018B92E /* IdeaStore.swift */,
 				6D802A8020F4309F000FF1F8 /* ListCreationViewController.swift */,
@@ -72,6 +71,7 @@
 				6DD70F5320C0D90D00F6A762 /* Assets.xcassets */,
 				6DD70F5520C0D90D00F6A762 /* LaunchScreen.storyboard */,
 				6DD70F5820C0D90D00F6A762 /* Info.plist */,
+				6DD70F5E20C0E0BF00F6A762 /* IdeasViewController.swift */,
 			);
 			path = "Ten Ideas";
 			sourceTree = "<group>";

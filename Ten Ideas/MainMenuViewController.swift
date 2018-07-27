@@ -11,12 +11,31 @@ import UIKit
 class MainMenuViewController: UIViewController {
     
     var ideaStore: IdeaStore!
-
-    @IBAction func startListSequence(_ sender: Any) {
+    var idea: Idea!
+    
+    var retrievedArray: [Idea]?
         
-        let listVC = self.storyboard?.instantiateViewController(withIdentifier: "lvc")
-        let navVC = UINavigationController(rootViewController: listVC!) as UIViewController
-        self.present(navVC, animated: true, completion: nil)
+    @IBAction func startListSequence(_ sender: Any) {
+        pullUpNavController()
     }
     
+    @IBAction func checkUserDefaults(_ sender: Any) {
+        let defaults = UserDefaults.standard
+        if let data = defaults.value(forKey: "List 109") as? Data {
+            retrievedArray = try? PropertyListDecoder().decode(Array<Idea>.self, from: data)
+            if let idea = retrievedArray {
+                for i in 0..<idea.count {
+                    print(idea[i].text)
+                }
+            }
+        }
+    }
+    
+    func pullUpNavController(){
+        let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
+        let navVC = UINavigationController(rootViewController: destination) as UIViewController
+        destination.currentIdeaList = ideaStore
+        destination.currentIdea = idea
+        self.show(navVC, sender: self)
+    }
 }

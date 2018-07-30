@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListCreationViewController: UIViewController, UITextViewDelegate {
+class ListCreationViewController: UIViewController, UITextViewDelegate, UINavigationControllerDelegate {
     
     @IBOutlet var listNumberLabel: UILabel!
     @IBOutlet var ideaNumberLabel: UILabel!
@@ -20,13 +20,9 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     var currentIdea: Idea!
     
     @IBAction func nextButtonPressed(_ sender: Any) {
-        
         // Storing UITextView text into idea object & appending to idea list
         currentIdea.text  = contentTextView.text
         currentIdeaList.allIdeas.append(currentIdea)
-        
-        // Increase idea index for next idea
-        currentIdea.index += 1
         pushNextViewOntoStack()
     }
     
@@ -34,6 +30,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         currentIdea.index -= 1
         navigationController?.popViewController(animated: true)
     }
+    
     @IBAction func finishButtonPressed(_ sender: Any) {
         let ideaListArray = currentIdeaList.allIdeas
         let ideaListTitle = currentIdeaList.ideaListTitle
@@ -50,9 +47,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         contentTextView.delegate = self
         listNumberLabel.text = currentIdeaList.ideaListTitle
         
-        if currentIdea.index == 0 {
-            currentIdea.index = 1
-        }
+        updateIndex()
+        self.navigationItem.title = ""
         
         ideaNumberLabel.text = String(currentIdea.index)
         
@@ -70,12 +66,28 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (contentTextView.font?.pointSize)!/2)
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.isHidden = !contentTextView.text.isEmpty
- 
-
     }
-    
-    func assignIndex(){
-        
+    // Update index on current view & prepare indecies on proximity views
+    func updateIndex(){
+        switch currentIdea.index {
+        case 0:
+            currentIdea.index = 1
+            currentIdea.nextIndex = currentIdea.index + 1
+        case 1:
+            currentIdea.index += 1
+            currentIdea.nextIndex = currentIdea.index + 1
+            currentIdea.previousIndex = nil
+        case 2...8:
+            currentIdea.index += 1
+            currentIdea.nextIndex = currentIdea.index + 1
+            currentIdea.previousIndex = currentIdea.index - 1
+        case 9:
+            currentIdea.index += 1
+            currentIdea.nextIndex = nil
+            currentIdea.previousIndex = currentIdea.index - 1
+        default:
+            break
+        }
     }
     
     func pushNextViewOntoStack(){
@@ -86,6 +98,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         navigationController?.pushViewController(destination, animated: true)
     }
     
+    // MARK: UI ELEMENTS
     // Implements placeholder disappearing funcionality when begin to type
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true

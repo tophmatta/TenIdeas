@@ -12,12 +12,17 @@ struct Idea: Codable {
     var text: String
     var boomkark: Bool?
     var index: Int
+    var previousIndex: Int?
+    var nextIndex: Int?
+    
     let dateCreated: Date
     
     init() {
         self.text = "test"
         self.boomkark = nil
         self.index = 0
+        self.previousIndex = nil
+        self.nextIndex = nil
         self.dateCreated = Date()
     }
 }

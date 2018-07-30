@@ -30,10 +30,10 @@ class MainMenuViewController: UIViewController {
             }
         }
     }
-    
     func pullUpNavController(){
         let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
         let navVC = UINavigationController(rootViewController: destination) as UIViewController
+        navVC.navigationItem.title = ""
         destination.currentIdeaList = ideaStore
         destination.currentIdea = idea
         self.show(navVC, sender: self)

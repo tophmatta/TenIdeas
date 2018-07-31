@@ -117,7 +117,7 @@
                                     <action selector="backButtonPressed:" destination="1PO-SG-DDz" eventType="touchUpInside" id="cQ1-ff-mtG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJc-7F-fb1">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJc-7F-fb1" userLabel="Next Button Label">
                                 <rect key="frame" x="252" y="577" width="31" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="PFW-On-Acx"/>
@@ -172,8 +172,10 @@
                     <connections>
                         <outlet property="backButtonLabel" destination="SUX-UG-eGm" id="1Kd-Zo-F1p"/>
                         <outlet property="contentTextView" destination="e3n-v4-aLq" id="2ma-St-B30"/>
+                        <outlet property="finishButtonLabel" destination="T3n-16-6ua" id="NZI-9J-HML"/>
                         <outlet property="ideaNumberLabel" destination="f1K-ZI-H6r" id="k63-Nm-58p"/>
                         <outlet property="listNumberLabel" destination="nQk-9O-OlA" id="eHu-uI-HVW"/>
+                        <outlet property="nextButtonLabel" destination="PJc-7F-fb1" id="bMv-f8-fRP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7ZB-OE-Smw" userLabel="First Responder" sceneMemberID="firstResponder"/>

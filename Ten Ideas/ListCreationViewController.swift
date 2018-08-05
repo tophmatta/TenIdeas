@@ -22,8 +22,21 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     var currentIdea: Idea!
     
     @IBAction func nextButtonPressed(_ sender: Any) {
-        appendIdea()
+        
         pushNextViewOntoStack()
+        // Checks to see if element in array at specified index
+        // If content view text doesn't equal array element text, update the array element text with new
+        if ideaIsAtIndex() && currentIdeaList.allIdeas[currentIdea.index].text != contentTextView.text {
+            currentIdeaList.allIdeas[currentIdea.index].text = contentTextView.text
+            print("text updated")
+            
+            return
+        }
+        
+        // If no element exists
+        print("idea appended")
+        appendIdea()
+        
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
@@ -42,9 +55,15 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         
         updateIndexAndRespectiveUI()
+        let check = ideaIsAtIndex()
+        if check {
+            contentTextView.text = currentIdeaList.allIdeas[currentIdea.index].text
+        }
+        //print("Idea exists at\(currentIdea.index): \(check)")
         performMiscUIActions()
         formatContentTextViewParameters()
     }
+    
     
     // Take content text view text and append to [Idea]
     func appendIdea(){
@@ -62,6 +81,20 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         defaults.setValue(try? PropertyListEncoder().encode(ideaListArray), forKey: ideaListTitle)
     }
     
+    // Persisting already created ideas when navigation through flow
+    // Check array and if already created, grab idea at currentIdea.index
+    func ideaIsAtIndex() -> Bool {
+        let index = currentIdea.index
+        if currentIdeaList.allIdeas.isEmpty || !currentIdeaList.allIdeas.indices.contains(index) {
+            print("allIdeas or idea is empty")
+            return false
+        }
+        print("there have already been ideas")
+        contentTextView.text = currentIdeaList.allIdeas[index].text
+        print("\(contentTextView.text)")
+        return true
+    }
+    
     // Update index on current view & prepare indices on proximity views
     func updateIndexAndRespectiveUI(){
         switch currentIdea.index {
@@ -71,7 +104,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             
             // Hide back & finish button
             backButtonLabel.isHidden = true
-            finishButtonLabel.isHidden = true
+            //finishButtonLabel.isHidden = true
         case 1:
             currentIdea.index += 1
             currentIdea.nextIndex = currentIdea.index + 1
@@ -79,21 +112,21 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             
             // Show back button, hide finish
             backButtonLabel.isHidden = false
-            finishButtonLabel.isHidden = true
+            //finishButtonLabel.isHidden = true
         case 2...8:
             currentIdea.index += 1
             currentIdea.nextIndex = currentIdea.index + 1
             currentIdea.previousIndex = currentIdea.index - 1
             
             // Hide finish button
-            finishButtonLabel.isHidden = true
+            //finishButtonLabel.isHidden = true
         case 9:
             currentIdea.index += 1
             currentIdea.nextIndex = nil
             currentIdea.previousIndex = currentIdea.index - 1
             
             // Show finish button and hide next button
-            finishButtonLabel.isHidden = false
+            //finishButtonLabel.isHidden = false
             nextButtonLabel.isHidden = true
         default:
             break
@@ -103,8 +136,17 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     func pushNextViewOntoStack(){
         let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
         destination.currentIdeaList = currentIdeaList
-        // Used struct instead of class for 'Idea' to create a copy instead of reference to be able to use below logic
-        destination.currentIdea = currentIdea
+        
+        // See if next view already has idea object at index
+        // If so, grab future idea at index and load text into content view
+        if currentIdeaList.allIdeas.indices.contains(currentIdea.index + 1) {
+            destination.currentIdea = currentIdeaList.allIdeas[currentIdea.index+1]
+        } else {
+            // Used struct instead of class for 'Idea' to create a copy instead of reference to be able to use below logic
+            destination.currentIdea = currentIdea
+        }
+        
+        
         navigationController?.pushViewController(destination, animated: true)
     }
     
@@ -128,7 +170,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         // Logic for setting up UITextView placeholder parameters
         placeholderLabel = UILabel()
         placeholderLabel.text = "Start writing..."
-        placeholderLabel.font = UIFont.italicSystemFont(ofSize: (contentTextView.font?.pointSize)!)
+        placeholderLabel.font = UIFont.systemFont(ofSize: (contentTextView.font?.pointSize)!)
         placeholderLabel.sizeToFit()
         contentTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (contentTextView.font?.pointSize)!/2)

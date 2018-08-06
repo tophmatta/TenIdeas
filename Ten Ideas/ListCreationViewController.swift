@@ -31,21 +31,22 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             print("text updated")
             
             return
+        } else if !ideaIsAtIndex(){
+            // If no element exists
+            print("idea appended")
+            appendIdea()
         }
-        
-        // If no element exists
-        print("idea appended")
-        appendIdea()
-        
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
-        appendIdea()
+        //appendIdea()
         navigationController?.popViewController(animated: true)
     }
     
     @IBAction func finishButtonPressed(_ sender: Any) {
-        appendIdea()
+        if !ideaIsAtIndex(){
+            appendIdea()
+        }
         encodeListAndSaveToDefaults()
         // dimiss modal
         self.dismiss(animated: true)
@@ -53,15 +54,17 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         updateIndexAndRespectiveUI()
+        performMiscUIActions()
+        formatContentTextViewParameters()
+
+        print(currentIdea.index)
+
         let check = ideaIsAtIndex()
         if check {
             contentTextView.text = currentIdeaList.allIdeas[currentIdea.index].text
+            print(check)
         }
-        //print("Idea exists at\(currentIdea.index): \(check)")
-        performMiscUIActions()
-        formatContentTextViewParameters()
     }
     
     
@@ -86,12 +89,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     func ideaIsAtIndex() -> Bool {
         let index = currentIdea.index
         if currentIdeaList.allIdeas.isEmpty || !currentIdeaList.allIdeas.indices.contains(index) {
-            print("allIdeas or idea is empty")
             return false
         }
-        print("there have already been ideas")
-        contentTextView.text = currentIdeaList.allIdeas[index].text
-        print("\(contentTextView.text)")
         return true
     }
     
@@ -106,24 +105,35 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             backButtonLabel.isHidden = true
             //finishButtonLabel.isHidden = true
         case 1:
-            currentIdea.index += 1
+            if !ideaIsAtIndex() {
+                currentIdea.index += 1
+            }
             currentIdea.nextIndex = currentIdea.index + 1
-            currentIdea.previousIndex = nil
+            currentIdea.previousIndex = currentIdea.index - 1
             
+            print("prev: \(currentIdea.previousIndex), current: \(currentIdea.index), next: \(currentIdea.nextIndex)")
+
             // Show back button, hide finish
             backButtonLabel.isHidden = false
             //finishButtonLabel.isHidden = true
         case 2...8:
-            currentIdea.index += 1
+            if !ideaIsAtIndex() {
+                currentIdea.index += 1
+            }
             currentIdea.nextIndex = currentIdea.index + 1
             currentIdea.previousIndex = currentIdea.index - 1
+            
+            print("prev: \(currentIdea.previousIndex), current: \(currentIdea.index), next: \(currentIdea.nextIndex)")
             
             // Hide finish button
             //finishButtonLabel.isHidden = true
         case 9:
-            currentIdea.index += 1
-            currentIdea.nextIndex = nil
-            currentIdea.previousIndex = currentIdea.index - 1
+            if !ideaIsAtIndex(){
+                currentIdea.index += 1
+                currentIdea.nextIndex = nil
+                currentIdea.previousIndex = currentIdea.index - 1
+
+            }
             
             // Show finish button and hide next button
             //finishButtonLabel.isHidden = false

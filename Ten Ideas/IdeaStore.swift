@@ -12,20 +12,8 @@ class IdeaStore {
     var allIdeas = [Idea]()
     var ideaListTitle: String
     
-//    func createIdea() -> Idea {
-//        let newIdea = Idea(text: "Testing", bookmark: false)
-//
-//        allIdeas.append(newIdea)
-//
-//        return newIdea
-//    }
-    
     init(ideaListTitle: String) {
         self.ideaListTitle = ideaListTitle
-        
-//        for _ in 0..<5 {
-//            createIdea()
-//        }
     }
 }
 

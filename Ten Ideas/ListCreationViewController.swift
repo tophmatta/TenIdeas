@@ -22,24 +22,22 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     var currentIdea: Idea!
     
     @IBAction func nextButtonPressed(_ sender: Any) {
-        
-        pushNextViewOntoStack()
-        // Checks to see if element in array at specified index
-        // If content view text doesn't equal array element text, update the array element text with new
-        if ideaIsAtIndex() && currentIdeaList.allIdeas[currentIdea.index].text != contentTextView.text {
-            currentIdeaList.allIdeas[currentIdea.index].text = contentTextView.text
-            print("text updated")
-            
-            return
-        } else if !ideaIsAtIndex(){
+        // 1) Checks to see if index exists in ideaStore
+        // 2) If contentTextView doesn't equal ideaStore object text, update object text in allIdeas array
+        if ideaIsAtIndex() {
+            if currentIdeaList.allIdeas[currentIdea.index-1].text != contentTextView.text, let contentTVtext = contentTextView.text {
+                currentIdeaList.allIdeas[currentIdea.index-1].text = contentTVtext
+            }
+        } else {
             // If no element exists
-            print("idea appended")
             appendIdea()
         }
+        pushNextViewOntoStack()
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
         //appendIdea()
+        
         navigationController?.popViewController(animated: true)
     }
     
@@ -51,22 +49,34 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         // dimiss modal
         self.dismiss(animated: true)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateIndexAndRespectiveUI()
+        // Index at
+        if currentIdea.index == 0 {
+            currentIdea.index = 1
+        }
+        
         performMiscUIActions()
         formatContentTextViewParameters()
-
-        print(currentIdea.index)
-
-        let check = ideaIsAtIndex()
-        if check {
-            contentTextView.text = currentIdeaList.allIdeas[currentIdea.index].text
-            print(check)
+        if ideaIsAtIndex() {
+            print("current idea text: \(currentIdea.text)")
+            contentTextView.text = currentIdea.text
+            placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
         }
     }
     
+    
+    // Persisting already created ideas when navigation through flow
+    // Check array and if already created, grab idea at currentIdea.index
+    // *Note: allIdeas index is n-1 currentIdea.index
+    func ideaIsAtIndex() -> Bool {
+        let index = currentIdea.index
+        if currentIdeaList.allIdeas.isEmpty || !currentIdeaList.allIdeas.indices.contains(index - 1) {
+            return false
+        }
+        return true
+    }
     
     // Take content text view text and append to [Idea]
     func appendIdea(){
@@ -84,79 +94,23 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         defaults.setValue(try? PropertyListEncoder().encode(ideaListArray), forKey: ideaListTitle)
     }
     
-    // Persisting already created ideas when navigation through flow
-    // Check array and if already created, grab idea at currentIdea.index
-    func ideaIsAtIndex() -> Bool {
-        let index = currentIdea.index
-        if currentIdeaList.allIdeas.isEmpty || !currentIdeaList.allIdeas.indices.contains(index) {
-            return false
-        }
-        return true
-    }
-    
-    // Update index on current view & prepare indices on proximity views
-    func updateIndexAndRespectiveUI(){
-        switch currentIdea.index {
-        case 0:
-            currentIdea.index = 1
-            currentIdea.nextIndex = currentIdea.index + 1
-            
-            // Hide back & finish button
-            backButtonLabel.isHidden = true
-            //finishButtonLabel.isHidden = true
-        case 1:
-            if !ideaIsAtIndex() {
-                currentIdea.index += 1
-            }
-            currentIdea.nextIndex = currentIdea.index + 1
-            currentIdea.previousIndex = currentIdea.index - 1
-            
-            print("prev: \(currentIdea.previousIndex), current: \(currentIdea.index), next: \(currentIdea.nextIndex)")
-
-            // Show back button, hide finish
-            backButtonLabel.isHidden = false
-            //finishButtonLabel.isHidden = true
-        case 2...8:
-            if !ideaIsAtIndex() {
-                currentIdea.index += 1
-            }
-            currentIdea.nextIndex = currentIdea.index + 1
-            currentIdea.previousIndex = currentIdea.index - 1
-            
-            print("prev: \(currentIdea.previousIndex), current: \(currentIdea.index), next: \(currentIdea.nextIndex)")
-            
-            // Hide finish button
-            //finishButtonLabel.isHidden = true
-        case 9:
-            if !ideaIsAtIndex(){
-                currentIdea.index += 1
-                currentIdea.nextIndex = nil
-                currentIdea.previousIndex = currentIdea.index - 1
-
-            }
-            
-            // Show finish button and hide next button
-            //finishButtonLabel.isHidden = false
-            nextButtonLabel.isHidden = true
-        default:
-            break
-        }
-    }
-    
     func pushNextViewOntoStack(){
         let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
-        destination.currentIdeaList = currentIdeaList
-        
         // See if next view already has idea object at index
-        // If so, grab future idea at index and load text into content view
-        if currentIdeaList.allIdeas.indices.contains(currentIdea.index + 1) {
-            destination.currentIdea = currentIdeaList.allIdeas[currentIdea.index+1]
+        // Note: allIdeas index is n-1 currentIdea.index
+        if !currentIdeaList.allIdeas.indices.contains(currentIdea.index) {
+            // Initialize a new idea
+            destination.currentIdea = Idea()
+            destination.currentIdea.index = currentIdea.index + 1
+            //print("in there new idea")
         } else {
-            // Used struct instead of class for 'Idea' to create a copy instead of reference to be able to use below logic
-            destination.currentIdea = currentIdea
+            // If so, grab future idea text at index and load it into content view
+            destination.currentIdea = currentIdeaList.allIdeas[currentIdea.index]
+            print("dest. idea txt: \(destination.currentIdea.text)")
+            print("dest. idea idx: \(destination.currentIdea.index)")
+            //print("in here already an idea")
         }
-        
-        
+        destination.currentIdeaList = currentIdeaList
         navigationController?.pushViewController(destination, animated: true)
     }
     
@@ -188,7 +142,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         placeholderLabel.isHidden = !contentTextView.text.isEmpty
     }
     
-    // Implements placeholder disappearing funcionality when begin to type
+    // Implements placeholder disappearing functionality when begin to type
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
     }
@@ -205,4 +159,55 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         contentTextView.resignFirstResponder()
     }
 }
+
+
+
+// Update index on current view & prepare indices on proximity views
+//    func updateIndexAndRespectiveUI(){
+//        switch currentIdea.index {
+//        case 0:
+//            currentIdea.index = 1
+//            currentIdea.nextIndex = currentIdea.index + 1
+//
+//            // Hide back & finish button
+//            backButtonLabel.isHidden = true
+//            //finishButtonLabel.isHidden = true
+//        case 1:
+//            if !ideaIsAtIndex() {
+//                currentIdea.index += 1
+//            }
+//            currentIdea.nextIndex = currentIdea.index + 1
+//            currentIdea.previousIndex = currentIdea.index - 1
+//
+//            print("prev: \(currentIdea.previousIndex), current: \(currentIdea.index), next: \(currentIdea.nextIndex)")
+//
+//            // Show back button, hide finish
+//            backButtonLabel.isHidden = false
+//            //finishButtonLabel.isHidden = true
+//        case 2...8:
+//            if !ideaIsAtIndex() {
+//                currentIdea.index += 1
+//            }
+//            currentIdea.nextIndex = currentIdea.index + 1
+//            currentIdea.previousIndex = currentIdea.index - 1
+//
+//            print("prev: \(currentIdea.previousIndex), current: \(currentIdea.index), next: \(currentIdea.nextIndex)")
+//
+//            // Hide finish button
+//            //finishButtonLabel.isHidden = true
+//        case 9:
+//            if !ideaIsAtIndex(){
+//                currentIdea.index += 1
+//                currentIdea.nextIndex = nil
+//                currentIdea.previousIndex = currentIdea.index - 1
+//
+//            }
+//
+//            // Show finish button and hide next button
+//            //finishButtonLabel.isHidden = false
+//            nextButtonLabel.isHidden = true
+//        default:
+//            break
+//        }
+//    }
 

@@ -21,8 +21,6 @@ struct Idea: Codable {
         self.text = "test"
         self.boomkark = nil
         self.index = 0
-        self.previousIndex = nil
-        self.nextIndex = nil
         self.dateCreated = Date()
     }
 }

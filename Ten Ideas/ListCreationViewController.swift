@@ -5,7 +5,6 @@
 //  Created by Toph on 7/9/18.
 //  Copyright © 2018 Toph. All rights reserved.
 //
-
 import UIKit
 
 class ListCreationViewController: UIViewController, UITextViewDelegate {
@@ -36,8 +35,26 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
-        //appendIdea()
+        // if content text view not same as currentIdea text or idea hasn't been saved, spawn alert view
         
+        guard contentTextView.text.isEmpty else {
+            let alert = UIAlertController.init(title: "Hold on one sec", message: "Do you want to save your idea?", preferredStyle: .alert)
+            let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { (UIAlertAction) in
+                if self.ideaIsAtIndex(), self.currentIdeaList.allIdeas[self.currentIdea.index-1].text != self.contentTextView.text, let contentTVtext = self.contentTextView.text {
+                    self.currentIdeaList.allIdeas[self.currentIdea.index-1].text = contentTVtext
+                } else {
+                    self.appendIdea()
+                }
+                self.navigationController?.popViewController(animated: true)
+            })
+            let noAction = UIAlertAction(title: "No", style: .default) { (UIAlertAction) in
+                self.navigationController?.popViewController(animated: true)
+            }
+            alert.addAction(yesAction)
+            alert.addAction(noAction)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
         navigationController?.popViewController(animated: true)
     }
     
@@ -52,20 +69,15 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Index at
-        if currentIdea.index == 0 {
-            currentIdea.index = 1
-        }
-        
-        performMiscUIActions()
+
+        updateUIButtonsWithRespectToIdeaIndex()
         formatContentTextViewParameters()
         if ideaIsAtIndex() {
-            print("current idea text: \(currentIdea.text)")
             contentTextView.text = currentIdea.text
             placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
         }
+        performMiscUIActions()
     }
-    
     
     // Persisting already created ideas when navigation through flow
     // Check array and if already created, grab idea at currentIdea.index
@@ -102,19 +114,31 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             // Initialize a new idea
             destination.currentIdea = Idea()
             destination.currentIdea.index = currentIdea.index + 1
-            //print("in there new idea")
         } else {
-            // If so, grab future idea text at index and load it into content view
+            // If so, grab future idea text at index and load it into content text view
             destination.currentIdea = currentIdeaList.allIdeas[currentIdea.index]
-            print("dest. idea txt: \(destination.currentIdea.text)")
-            print("dest. idea idx: \(destination.currentIdea.index)")
-            //print("in here already an idea")
         }
         destination.currentIdeaList = currentIdeaList
         navigationController?.pushViewController(destination, animated: true)
     }
     
-    // MARK: UI ELEMENTS
+    // MARK:- UI ELEMENTS METHODS
+    
+    //Update index on current view & prepare indices on proximity views
+    func updateUIButtonsWithRespectToIdeaIndex(){
+        switch currentIdea.index {
+        case 1:
+            backButtonLabel.isHidden = true
+            finishButtonLabel.isHidden = true
+        case 2...9:
+            finishButtonLabel.isHidden = false
+            backButtonLabel.isHidden = false
+        case 10:
+            nextButtonLabel.isHidden = true
+        default:
+            break
+        }
+    }
     
     // Miscellaneous UI actions
     func performMiscUIActions(){
@@ -122,6 +146,10 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.title = ""
         listNumberLabel.text = currentIdeaList.ideaListTitle
         ideaNumberLabel.text = String(currentIdea.index)
+        // Disable next button if no text
+        if contentTextView.text.isEmpty {
+            nextButtonLabel.isEnabled = false
+        }
     }
     
     // Content text view functionality
@@ -142,9 +170,13 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         placeholderLabel.isHidden = !contentTextView.text.isEmpty
     }
     
-    // Implements placeholder disappearing functionality when begin to type
+    // MARK:- UITextViewDelegate Methods
+    
+    // Implements placeholder disappearing functionality upon typing
+    // Disables/Enables next button upon typing
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
+        nextButtonLabel.isEnabled = contentTextView.text.isEmpty ? false : true
     }
     
     // Setting character count - checks # of characters each time text is changed by replacing the same text w/ itself
@@ -161,53 +193,4 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
 }
 
 
-
-// Update index on current view & prepare indices on proximity views
-//    func updateIndexAndRespectiveUI(){
-//        switch currentIdea.index {
-//        case 0:
-//            currentIdea.index = 1
-//            currentIdea.nextIndex = currentIdea.index + 1
-//
-//            // Hide back & finish button
-//            backButtonLabel.isHidden = true
-//            //finishButtonLabel.isHidden = true
-//        case 1:
-//            if !ideaIsAtIndex() {
-//                currentIdea.index += 1
-//            }
-//            currentIdea.nextIndex = currentIdea.index + 1
-//            currentIdea.previousIndex = currentIdea.index - 1
-//
-//            print("prev: \(currentIdea.previousIndex), current: \(currentIdea.index), next: \(currentIdea.nextIndex)")
-//
-//            // Show back button, hide finish
-//            backButtonLabel.isHidden = false
-//            //finishButtonLabel.isHidden = true
-//        case 2...8:
-//            if !ideaIsAtIndex() {
-//                currentIdea.index += 1
-//            }
-//            currentIdea.nextIndex = currentIdea.index + 1
-//            currentIdea.previousIndex = currentIdea.index - 1
-//
-//            print("prev: \(currentIdea.previousIndex), current: \(currentIdea.index), next: \(currentIdea.nextIndex)")
-//
-//            // Hide finish button
-//            //finishButtonLabel.isHidden = true
-//        case 9:
-//            if !ideaIsAtIndex(){
-//                currentIdea.index += 1
-//                currentIdea.nextIndex = nil
-//                currentIdea.previousIndex = currentIdea.index - 1
-//
-//            }
-//
-//            // Show finish button and hide next button
-//            //finishButtonLabel.isHidden = false
-//            nextButtonLabel.isHidden = true
-//        default:
-//            break
-//        }
-//    }
 

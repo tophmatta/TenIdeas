@@ -20,7 +20,7 @@ struct Idea: Codable {
     init() {
         self.text = "test"
         self.boomkark = nil
-        self.index = 0
+        self.index = 1
         self.dateCreated = Date()
     }
 }

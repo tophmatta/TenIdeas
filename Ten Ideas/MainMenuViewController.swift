@@ -11,7 +11,7 @@ import UIKit
 class MainMenuViewController: UIViewController {
     
     var ideaStore: IdeaStore!
-    var idea: Idea!
+    var idea: Idea! = Idea()
     
     var retrievedArray: [Idea]?
         

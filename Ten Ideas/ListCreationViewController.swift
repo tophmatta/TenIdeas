@@ -38,8 +38,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         // if content text view not same as currentIdea text or idea hasn't been saved, spawn alert view
         
         guard contentTextView.text.isEmpty else {
-            let alert = UIAlertController.init(title: "Hold on one sec", message: "Do you want to save your idea?", preferredStyle: .alert)
-            let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { (UIAlertAction) in
+            let alert = UIAlertController.init(title: Constant.Alert.deleteTitle, message: Constant.Alert.deleteMessage, preferredStyle: .alert)
+            let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
                 if self.ideaIsAtIndex(), self.currentIdeaList.allIdeas[self.currentIdea.index-1].text != self.contentTextView.text, let contentTVtext = self.contentTextView.text {
                     self.currentIdeaList.allIdeas[self.currentIdea.index-1].text = contentTVtext
                 } else {
@@ -47,7 +47,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
                 }
                 self.navigationController?.popViewController(animated: true)
             })
-            let noAction = UIAlertAction(title: "No", style: .default) { (UIAlertAction) in
+            let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (UIAlertAction) in
                 self.navigationController?.popViewController(animated: true)
             }
             alert.addAction(yesAction)
@@ -66,11 +66,15 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         // dimiss modal
         self.dismiss(animated: true)
     }
-
+    
+    @IBAction func dismissKeyboard(sender: Any) {
+        contentTextView.resignFirstResponder()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        updateUIButtonsWithRespectToIdeaIndex()
+        updateUI(for: currentIdea.index)
         formatContentTextViewParameters()
         if ideaIsAtIndex() {
             contentTextView.text = currentIdea.text
@@ -78,6 +82,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         }
         performMiscUIActions()
     }
+    
+    // MARK:- IDEA HANDLERS/INITIALIZERS
     
     // Persisting already created ideas when navigation through flow
     // Check array and if already created, grab idea at currentIdea.index
@@ -102,8 +108,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         let ideaListTitle = currentIdeaList.ideaListTitle
         
         // Save list - UserDefaults
-        let defaults = UserDefaults.standard
-        defaults.setValue(try? PropertyListEncoder().encode(ideaListArray), forKey: ideaListTitle)
+        IdeaStore.saveIdeasToDefaults(with: ideaListArray, key: ideaListTitle)
     }
     
     func pushNextViewOntoStack(){
@@ -125,8 +130,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     // MARK:- UI ELEMENTS METHODS
     
     //Update index on current view & prepare indices on proximity views
-    func updateUIButtonsWithRespectToIdeaIndex(){
-        switch currentIdea.index {
+    func updateUI(for index:Int){
+        switch index {
         case 1:
             backButtonLabel.isHidden = true
             finishButtonLabel.isHidden = true
@@ -161,7 +166,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         
         // Logic for setting up UITextView placeholder parameters
         placeholderLabel = UILabel()
-        placeholderLabel.text = "Start writing..."
+        placeholderLabel.text = Constant.PlaceholderText.contentTextPlaceholder
         placeholderLabel.font = UIFont.systemFont(ofSize: (contentTextView.font?.pointSize)!)
         placeholderLabel.sizeToFit()
         contentTextView.addSubview(placeholderLabel)
@@ -183,12 +188,20 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
-        return numberOfChars < 300
+        print(numberOfChars)
+        return numberOfChars < 200
     }
-    
-    // Keyboard actions
-    @IBAction func dismissKeyboard(sender: Any) {
-        contentTextView.resignFirstResponder()
+
+    struct Constant {
+        struct PlaceholderText {
+            static let contentTextPlaceholder = "Start writing..."
+        }
+        struct Alert {
+            static let deleteTitle = "Hold on one sec"
+            static let deleteMessage = "Do you want to save your idea?"
+            static let yes = "Yes"
+            static let no = "No"
+        }
     }
 }
 

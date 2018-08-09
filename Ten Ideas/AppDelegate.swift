@@ -23,10 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //ideasViewController.ideaStore = ideaStore
         
         let testIdeaList = IdeaStore(ideaListTitle: "List 109")
-        let testIdea = Idea()
         let mainMenuViewController = window!.rootViewController as! MainMenuViewController
         mainMenuViewController.ideaStore = testIdeaList
-        mainMenuViewController.idea = testIdea
         
         return true
     }

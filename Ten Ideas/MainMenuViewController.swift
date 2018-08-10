@@ -14,6 +14,7 @@ class MainMenuViewController: UIViewController {
     var idea: Idea! = Idea()
     
     var retrievedArray: [Idea]?
+    var retrievedArrayName: String?
         
     @IBAction func startListSequence(_ sender: Any) {
         pullUpNavController()

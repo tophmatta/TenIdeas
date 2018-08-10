@@ -62,9 +62,28 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         if !ideaIsAtIndex(){
             appendIdea()
         }
+        // Ask if want to name list with alert viewcontroller
+        let alert = UIAlertController.init(title: Constant.Alert.nameTitle, message: Constant.Alert.nameMessage, preferredStyle: .alert)
+        let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (action) in
+            self.presentedViewController?.dismiss(animated: false, completion: nil)
+            self.dismiss(animated: true, completion: nil)
+        }
+        let yesUpdateAction = UIAlertAction(title: Constant.Alert.yesUpdate, style: .default, handler: { (UIAlertAction) in
+            self.presentedViewController?.dismiss(animated: false, completion: nil)
+            self.dismiss(animated: true, completion: nil)
+        })
+        
+        alert.addTextField { (textfield) in
+            if let textfieldText = textfield.text {
+                self.currentIdeaList.ideaListTitle = textfieldText
+            }
+        }
+        alert.addAction(yesUpdateAction)
+        alert.addAction(noAction)
+        
+        self.present(alert, animated: true, completion: nil)
+
         encodeListAndSaveToDefaults()
-        // dimiss modal
-        self.dismiss(animated: true)
     }
     
     @IBAction func dismissKeyboard(sender: Any) {
@@ -175,7 +194,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         placeholderLabel.isHidden = !contentTextView.text.isEmpty
     }
     
-    // MARK:- UITextViewDelegate Methods
+    // MARK:- UITEXTVIEW DELEGATE METHODS
     
     // Implements placeholder disappearing functionality upon typing
     // Disables/Enables next button upon typing
@@ -192,6 +211,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         return numberOfChars < 200
     }
 
+    // MARK:- CONSTANTS
     struct Constant {
         struct PlaceholderText {
             static let contentTextPlaceholder = "Start writing..."
@@ -199,6 +219,9 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         struct Alert {
             static let deleteTitle = "Hold on one sec"
             static let deleteMessage = "Do you want to save your idea?"
+            static let nameTitle = "Feel like naming your list?"
+            static let nameMessage = "If so, cool. If not, cool."
+            static let yesUpdate = "Yes, update"
             static let yes = "Yes"
             static let no = "No"
         }

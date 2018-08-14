@@ -16,9 +16,11 @@
 		6DD70F5720C0D90D00F6A762 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DD70F5520C0D90D00F6A762 /* LaunchScreen.storyboard */; };
 		6DD70F5F20C0E0BF00F6A762 /* IdeasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD70F5E20C0E0BF00F6A762 /* IdeasViewController.swift */; };
 		6DD70F6120C0E42E00F6A762 /* Idea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD70F6020C0E42E00F6A762 /* Idea.swift */; };
+		D7E504B1DFDFAB76BA6D9483 /* Pods_Ten_Ideas.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7396CA683812EAB2665FBFEB /* Pods_Ten_Ideas.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0651E2C800F904EFEC2D5855 /* Pods-Ten Ideas.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ten Ideas.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas.debug.xcconfig"; sourceTree = "<group>"; };
 		6D163C2020C6175C0018B92E /* IdeaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeaStore.swift; sourceTree = "<group>"; };
 		6D802A8020F4309F000FF1F8 /* ListCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCreationViewController.swift; sourceTree = "<group>"; };
 		6DB2102C20C8CF3800C8020A /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
@@ -30,6 +32,8 @@
 		6DD70F5820C0D90D00F6A762 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6DD70F5E20C0E0BF00F6A762 /* IdeasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeasViewController.swift; sourceTree = "<group>"; };
 		6DD70F6020C0E42E00F6A762 /* Idea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Idea.swift; sourceTree = "<group>"; };
+		7396CA683812EAB2665FBFEB /* Pods_Ten_Ideas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ten_Ideas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C81C93B92E19E373314CCCEE /* Pods-Ten Ideas.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ten Ideas.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7E504B1DFDFAB76BA6D9483 /* Pods_Ten_Ideas.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +53,8 @@
 			children = (
 				6DD70F4B20C0D90B00F6A762 /* Ten Ideas */,
 				6DD70F4A20C0D90B00F6A762 /* Products */,
+				7B1555D164B449E47B527A02 /* Pods */,
+				CCEF1841356A1B4FC7B0992A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -76,6 +83,23 @@
 			path = "Ten Ideas";
 			sourceTree = "<group>";
 		};
+		7B1555D164B449E47B527A02 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0651E2C800F904EFEC2D5855 /* Pods-Ten Ideas.debug.xcconfig */,
+				C81C93B92E19E373314CCCEE /* Pods-Ten Ideas.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CCEF1841356A1B4FC7B0992A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7396CA683812EAB2665FBFEB /* Pods_Ten_Ideas.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -83,9 +107,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DD70F5B20C0D90D00F6A762 /* Build configuration list for PBXNativeTarget "Ten Ideas" */;
 			buildPhases = (
+				0D2C811AA5D6B1460A8F08D7 /* [CP] Check Pods Manifest.lock */,
 				6DD70F4520C0D90B00F6A762 /* Sources */,
 				6DD70F4620C0D90B00F6A762 /* Frameworks */,
 				6DD70F4720C0D90B00F6A762 /* Resources */,
+				97D0A37C1FF9DD76B6164095 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -141,6 +167,47 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0D2C811AA5D6B1460A8F08D7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Ten Ideas-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		97D0A37C1FF9DD76B6164095 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6DD70F4520C0D90B00F6A762 /* Sources */ = {
@@ -294,6 +361,7 @@
 		};
 		6DD70F5C20C0D90D00F6A762 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0651E2C800F904EFEC2D5855 /* Pods-Ten Ideas.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -312,6 +380,7 @@
 		};
 		6DD70F5D20C0D90D00F6A762 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C81C93B92E19E373314CCCEE /* Pods-Ten Ideas.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

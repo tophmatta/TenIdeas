@@ -7,19 +7,35 @@
 //
 
 import UIKit
+import RealmSwift
 
-class IdeaStore {
-    var allIdeas = [Idea]()
-    var ideaListTitle: String
+class IdeaStore: Object {
+    let allIdeas = List<Idea>()
+    @objc dynamic var ideaListTitle: String = ""
+
     
-    init(ideaListTitle: String) {
+    convenience init(ideaListTitle: String) {
+        self.init()
         self.ideaListTitle = ideaListTitle
     }
     
-    static func saveIdeasToDefaults(with ideaArray:[Idea], key:String) {
+    override static func primaryKey() -> String {
+        return "ideaListTitle"
+    }
+    static func saveIdeasToDefaults(with ideaArray:List<Idea>, key:String) {
+        let realm = try! Realm()
+        
+        for i in ideaArray {
+            print(i)
+        }
+        try! realm.write {
+            realm.add(ideaArray)
+        }
+        
         // Save list - UserDefaults
-        let defaults = UserDefaults.standard
-        defaults.setValue(try? PropertyListEncoder().encode(ideaArray), forKey: key)
+        //let defaults = UserDefaults.standard
+        //defaults.set(ideaArray, forKey: key)
+        //defaults.setValue(try? PropertyListEncoder().encode(ideaArray), forKey: key)
     }
 }
 

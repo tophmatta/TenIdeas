@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -26,6 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainMenuViewController = window!.rootViewController as! MainMenuViewController
         mainMenuViewController.ideaStore = testIdeaList
         
+        print(Realm.Configuration.defaultConfiguration.fileURL)
+        
+        let realm = try! Realm()
+        try! realm.write {
+            realm.deleteAll()
+        }
         return true
     }
 

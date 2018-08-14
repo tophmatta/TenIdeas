@@ -6,6 +6,7 @@
 //  Copyright © 2018 Toph. All rights reserved.
 //
 import UIKit
+import RealmSwift
 
 class ListCreationViewController: UIViewController, UITextViewDelegate {
     
@@ -72,9 +73,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             self.presentedViewController?.dismiss(animated: false, completion: nil)
             self.dismiss(animated: true, completion: nil)
         })
-        
         alert.addTextField { (textfield) in
-            if let textfieldText = textfield.text {
+            if let textfieldText = textfield.text, !textfield.text!.isEmpty {
                 self.currentIdeaList.ideaListTitle = textfieldText
             }
         }
@@ -82,8 +82,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         alert.addAction(noAction)
         
         self.present(alert, animated: true, completion: nil)
-
-        encodeListAndSaveToDefaults()
+        self.save(object: currentIdeaList, withTitle: currentIdeaList.ideaListTitle)
+        //encodeListAndSaveToDefaults()
     }
     
     @IBAction func dismissKeyboard(sender: Any) {
@@ -92,7 +92,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+                
         updateUI(for: currentIdea.index)
         formatContentTextViewParameters()
         if ideaIsAtIndex() {
@@ -119,6 +119,16 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     func appendIdea(){
         currentIdea.text  = contentTextView.text
         currentIdeaList.allIdeas.append(currentIdea)
+    }
+    
+    func save(object: IdeaStore, withTitle title: String){
+        
+        object.ideaListTitle = title
+        print(object)
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(object)
+        }
     }
     
     // Encode [Idea] object and save to user defaults
@@ -207,7 +217,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
-        print(numberOfChars)
         return numberOfChars < 200
     }
 

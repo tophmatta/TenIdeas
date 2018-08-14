@@ -7,20 +7,31 @@
 //
 
 import UIKit
+import RealmSwift
+import Realm
 
-struct Idea: Codable {
-    var text: String
-    var boomkark: Bool?
-    var index: Int
-    var previousIndex: Int?
-    var nextIndex: Int?
+class Idea: Object {
+    @objc dynamic var text: String = ""
+    @objc dynamic var bookmark: Bool = false
+    @objc dynamic var index: Int = 1
+    //@objc dynamic let dateCreated: Date = Date()
     
-    let dateCreated: Date
-    
-    init() {
-        self.text = "test"
-        self.boomkark = nil
-        self.index = 1
-        self.dateCreated = Date()
+    required init(){
+        super.init()
     }
+    convenience required init(text: String, bookmark: Bool, index: Int){
+        self.init()
+        self.text = text
+        self.bookmark = bookmark
+        self.index = index
+    }
+    
+    required init(realm: RLMRealm, schema: RLMObjectSchema) {
+        fatalError("init(realm:schema:) has not been implemented")
+    }
+    
+    required init(value: Any, schema: RLMSchema) {
+        fatalError("init(value:schema:) has not been implemented")
+    }
+    
 }

@@ -16,18 +16,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        // Create ideaStore
-       // let ideaStore = IdeaStore(ideaListTitle: "List test")
-        
-        // Access the IdeasViewController and set its item store
-        //let ideasViewController = window!.rootViewController as! MainMenuViewController
-        //ideasViewController.ideaStore = ideaStore
-        
         let testIdeaList = IdeaStore(ideaListTitle: "List 109")
         let mainMenuViewController = window!.rootViewController as! MainMenuViewController
         mainMenuViewController.ideaStore = testIdeaList
         
-        print(Realm.Configuration.defaultConfiguration.fileURL)
+        // Location of realm db file
+        //print(Realm.Configuration.defaultConfiguration.fileURL)
         
         let realm = try! Realm()
         try! realm.write {

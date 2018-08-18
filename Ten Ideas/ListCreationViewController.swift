@@ -21,6 +21,11 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     var currentIdeaList: IdeaStore!
     var currentIdea: Idea!
     
+//    private lazy var currentIdeaList: IdeaStore = {
+//        let lazyIdeaStore = IdeaStore()
+//        // Call method to check list number
+//    }
+    
     @IBAction func nextButtonPressed(_ sender: Any) {
         // 1) Checks to see if index exists in ideaStore
         // 2) If contentTextView doesn't equal ideaStore object text, update object text in allIdeas array
@@ -59,6 +64,22 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func cancelButtonPressed(_ sender: Any) {
+        let alert = UIAlertController.init(title: Constant.Alert.cancelTitle, message: Constant.Alert.cancelMessage, preferredStyle: .alert)
+        let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (action) in
+            self.presentedViewController?.dismiss(animated: false, completion: nil)
+        }
+        let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
+            self.presentedViewController?.dismiss(animated: false, completion: nil)
+            self.dismiss(animated: true, completion: nil)
+            print(self.currentIdeaList.allIdeas)
+        })
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @IBAction func finishButtonPressed(_ sender: Any) {
         if !ideaIsAtIndex(){
             appendIdea()
@@ -82,8 +103,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         alert.addAction(noAction)
         
         self.present(alert, animated: true, completion: nil)
-        self.save(object: currentIdeaList, withTitle: currentIdeaList.ideaListTitle)
-        //encodeListAndSaveToDefaults()
+        IdeaStore.save(object: currentIdeaList, withTitle: currentIdeaList.ideaListTitle)
     }
     
     @IBAction func dismissKeyboard(sender: Any) {
@@ -100,9 +120,24 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
         }
         performMiscUIActions()
+        currentIdeaList.check
     }
     
     // MARK:- IDEA HANDLERS/INITIALIZERS
+    
+    
+    // Check if first VC on Nav stack and handle IdeaStore appropriately
+    func isFirstViewControllerOnNavStack() -> Bool {
+        if navigationController?.viewControllers.count == 1 {
+            return true
+        }
+        return false
+    }
+    
+    
+    // Logic for default idea list name counter
+    // in idea store
+    
     
     // Persisting already created ideas when navigation through flow
     // Check array and if already created, grab idea at currentIdea.index
@@ -119,25 +154,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     func appendIdea(){
         currentIdea.text  = contentTextView.text
         currentIdeaList.allIdeas.append(currentIdea)
-    }
-    
-    func save(object: IdeaStore, withTitle title: String){
-        
-        object.ideaListTitle = title
-        print(object)
-        let realm = try! Realm()
-        try! realm.write {
-            realm.add(object)
-        }
-    }
-    
-    // Encode [Idea] object and save to user defaults
-    func encodeListAndSaveToDefaults(){
-        let ideaListArray = currentIdeaList.allIdeas
-        let ideaListTitle = currentIdeaList.ideaListTitle
-        
-        // Save list - UserDefaults
-        IdeaStore.saveIdeasToDefaults(with: ideaListArray, key: ideaListTitle)
     }
     
     func pushNextViewOntoStack(){
@@ -228,6 +244,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         struct Alert {
             static let deleteTitle = "Hold on one sec"
             static let deleteMessage = "Do you want to save your idea?"
+            static let cancelTitle = "Cancel list?"
+            static let cancelMessage = "All list items will be deleted."
             static let nameTitle = "Feel like naming your list?"
             static let nameMessage = "If so, cool. If not, cool."
             static let yesUpdate = "Yes, update"

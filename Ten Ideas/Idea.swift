@@ -15,11 +15,10 @@ class Idea: Object {
     @objc dynamic var index: Int = 1
     //@objc dynamic let dateCreated: Date = Date()
     
-    convenience  init(text: String, bookmark: Bool, index: Int){
+    convenience init(text: String, bookmark: Bool, index: Int){
         self.init()
         self.text = text
         self.bookmark = bookmark
         self.index = index
     }
-    
 }

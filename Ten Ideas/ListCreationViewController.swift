@@ -120,7 +120,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
         }
         performMiscUIActions()
-        currentIdeaList.check
+        IdeaStore.checkRealmForLastUsedDefaultListNumber()
     }
     
     // MARK:- IDEA HANDLERS/INITIALIZERS

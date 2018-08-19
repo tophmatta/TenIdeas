@@ -53,9 +53,10 @@ class IdeaStore: Object {
     
     static func checkRealmForLastUsedDefaultListNumber(){
         let realm = try! Realm()
-        let filter = "List"
-        let name = realm.objects(IdeaStore.self).filter("ideaListName == @%", filter)
-        print(name)
+        //let filter = "List"
+        let name = realm.objects(IdeaStore.self).filter("ideaListTitle == 'List'")
+        
+        
     }
 
 }

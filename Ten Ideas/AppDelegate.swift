@@ -16,9 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        let testIdeaList = IdeaStore(ideaListTitle: "List 109")
+        //let testIdeaList = IdeaStore(ideaListTitle: "List 109")
         let mainMenuViewController = window!.rootViewController as! MainMenuViewController
-        mainMenuViewController.ideaStore = testIdeaList
+        //mainMenuViewController.ideaStore = testIdeaList
         
         // Location of realm db file
         print(Realm.Configuration.defaultConfiguration.fileURL)

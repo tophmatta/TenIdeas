@@ -57,15 +57,15 @@
                                     <action selector="startListSequence:" destination="4D7-XA-XDK" eventType="touchUpInside" id="HrT-qA-30V"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cjc-pF-MDX">
-                                <rect key="frame" x="149" y="524" width="77" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cjc-pF-MDX">
+                                <rect key="frame" x="131" y="517" width="113" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="E69-t5-DAB"/>
+                                    <constraint firstAttribute="height" constant="44" id="E69-t5-DAB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="26"/>
-                                <state key="normal" title="check"/>
+                                <state key="normal" title="del rlm obj"/>
                                 <connections>
-                                    <action selector="checkRealmObject:" destination="4D7-XA-XDK" eventType="touchUpInside" id="Q29-5d-CqF"/>
+                                    <action selector="deleteRealmObjects:" destination="4D7-XA-XDK" eventType="touchUpInside" id="KhX-0R-uEz"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -74,7 +74,7 @@
                             <constraint firstItem="Exu-XI-X3j" firstAttribute="centerY" secondItem="BH6-Cv-G7X" secondAttribute="centerY" constant="-39.5" id="564-C8-ljr"/>
                             <constraint firstItem="Exu-XI-X3j" firstAttribute="centerX" secondItem="BH6-Cv-G7X" secondAttribute="centerX" id="Ap1-vq-hHw"/>
                             <constraint firstItem="8TR-IB-wEh" firstAttribute="bottom" secondItem="Ngm-sw-c3V" secondAttribute="bottom" id="NZC-UC-0Um"/>
-                            <constraint firstItem="Ngm-sw-c3V" firstAttribute="bottom" secondItem="Cjc-pF-MDX" secondAttribute="bottom" constant="113" id="cQ2-3Q-HvD"/>
+                            <constraint firstItem="Ngm-sw-c3V" firstAttribute="bottom" secondItem="Cjc-pF-MDX" secondAttribute="bottom" constant="106" id="cQ2-3Q-HvD"/>
                             <constraint firstItem="8TR-IB-wEh" firstAttribute="top" secondItem="Ngm-sw-c3V" secondAttribute="top" id="ccG-Hj-PpI"/>
                             <constraint firstItem="8TR-IB-wEh" firstAttribute="leading" secondItem="Ngm-sw-c3V" secondAttribute="leading" id="ccY-FL-XDf"/>
                             <constraint firstItem="8TR-IB-wEh" firstAttribute="trailing" secondItem="Ngm-sw-c3V" secondAttribute="trailing" id="p22-Zk-C1c"/>
@@ -195,7 +195,7 @@
                         <outlet property="contentTextView" destination="e3n-v4-aLq" id="2ma-St-B30"/>
                         <outlet property="finishButtonLabel" destination="T3n-16-6ua" id="NZI-9J-HML"/>
                         <outlet property="ideaNumberLabel" destination="f1K-ZI-H6r" id="k63-Nm-58p"/>
-                        <outlet property="listNumberLabel" destination="nQk-9O-OlA" id="eHu-uI-HVW"/>
+                        <outlet property="listTitleLabel" destination="nQk-9O-OlA" id="Cqf-iN-683"/>
                         <outlet property="nextButtonLabel" destination="PJc-7F-fb1" id="bMv-f8-fRP"/>
                     </connections>
                 </viewController>

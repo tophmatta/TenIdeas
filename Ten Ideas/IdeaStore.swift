@@ -12,29 +12,24 @@ import RealmSwift
 class IdeaStore: Object {
     let allIdeas = List<Idea>()
     @objc dynamic var ideaListTitle: String = ""
+    let ideaListNumber = RealmOptional<Int>()
     
     convenience init(ideaListTitle: String) {
         self.init()
         self.ideaListTitle = ideaListTitle
     }
-    // For Realm
-    override static func primaryKey() -> String {
-        return "ideaListTitle"
-    }
     
-    static func saveIdeasToDefaults(with ideaArray:List<Idea>, key:String) {
+    static func fetchLastListNumber() -> Int? {
         let realm = try! Realm()
-        
-        for i in ideaArray {
-            print(i)
+        let ideaStores = realm.objects(IdeaStore.self)
+        let ideaListNumbers = Array(ideaStores.map{$0.ideaListNumber})
+        guard let lastListNumber = ideaListNumbers.last?.value else {
+            return nil
         }
-        try! realm.write {
-            realm.add(ideaArray)
-        }
+        return lastListNumber
     }
-    
-    static func save(object: IdeaStore, withTitle title: String){
-        object.ideaListTitle = title
+        
+    static func save(object: IdeaStore){
         let realm = try! Realm()
         try! realm.write {
             realm.add(object)
@@ -43,10 +38,7 @@ class IdeaStore: Object {
     // TODO: Do something with result
     static func getObject(withKey key: String){
         let realm = try! Realm()
-        guard let obj = realm.object(ofType: IdeaStore.self, forPrimaryKey: key) else {
-            print("didn't work")
-            return
-        }
+        let obj = realm.objects(IdeaStore.self)
         //print(obj.allIdeas)
     }
     // Check realm db for last default list # used
@@ -55,8 +47,6 @@ class IdeaStore: Object {
         let realm = try! Realm()
         //let filter = "List"
         let name = realm.objects(IdeaStore.self).filter("ideaListTitle == 'List'")
-        
-        
     }
 
 }

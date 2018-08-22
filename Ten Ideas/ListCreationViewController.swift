@@ -10,7 +10,7 @@ import RealmSwift
 
 class ListCreationViewController: UIViewController, UITextViewDelegate {
     
-    @IBOutlet var listNumberLabel: UILabel!
+    @IBOutlet var listTitleLabel: UILabel!
     @IBOutlet var ideaNumberLabel: UILabel!
     @IBOutlet var backButtonLabel: UIButton!
     @IBOutlet var nextButtonLabel: UIButton!
@@ -20,11 +20,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     var placeholderLabel: UILabel!
     var currentIdeaList: IdeaStore!
     var currentIdea: Idea!
-    
-//    private lazy var currentIdeaList: IdeaStore = {
-//        let lazyIdeaStore = IdeaStore()
-//        // Call method to check list number
-//    }
     
     @IBAction func nextButtonPressed(_ sender: Any) {
         // 1) Checks to see if index exists in ideaStore
@@ -72,7 +67,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
             self.presentedViewController?.dismiss(animated: false, completion: nil)
             self.dismiss(animated: true, completion: nil)
-            print(self.currentIdeaList.allIdeas)
         })
         alert.addAction(yesAction)
         alert.addAction(noAction)
@@ -81,29 +75,50 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func finishButtonPressed(_ sender: Any) {
-        if !ideaIsAtIndex(){
+        if !ideaIsAtIndex() && !contentTextView.text.isEmpty {
             appendIdea()
         }
         // Ask if want to name list with alert viewcontroller
         let alert = UIAlertController.init(title: Constant.Alert.nameTitle, message: Constant.Alert.nameMessage, preferredStyle: .alert)
         let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (action) in
             self.presentedViewController?.dismiss(animated: false, completion: nil)
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: {
+                // Update idea list title property with title label text
+                self.currentIdeaList.ideaListTitle = self.listTitleLabel.text ?? "error"
+                // Save to realm db
+                IdeaStore.save(object: self.currentIdeaList)
+            })
         }
         let yesUpdateAction = UIAlertAction(title: Constant.Alert.yesUpdate, style: .default, handler: { (UIAlertAction) in
             self.presentedViewController?.dismiss(animated: false, completion: nil)
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: {
+                if let textfieldText = alert.textFields?.first?.text, !textfieldText.isEmpty {
+                    // Value for user defined name
+                    self.currentIdeaList.ideaListTitle = textfieldText
+                    self.currentIdeaList.ideaListNumber.value = nil
+                }
+                // Save to realm db
+                IdeaStore.save(object: self.currentIdeaList)
+            })
         })
-        alert.addTextField { (textfield) in
-            if let textfieldText = textfield.text, !textfield.text!.isEmpty {
-                self.currentIdeaList.ideaListTitle = textfieldText
-            }
-        }
+        
+//        alert.addTextField { (textfield) in
+//            if let textfieldText = textfield.text, !textfield.text!.isEmpty {
+//                // Value for user defined name
+//                self.currentIdeaList.ideaListTitle = textfieldText
+//                self.currentIdeaList.ideaListNumber.value = nil
+//            } else {
+//                // Update idea list title property with title label text
+//                self.currentIdeaList.ideaListTitle = self.listTitleLabel.text ?? "error"
+//            }
+//        }
+        
+        
+        alert.addTextField(configurationHandler: nil)
         alert.addAction(yesUpdateAction)
         alert.addAction(noAction)
         
-        self.present(alert, animated: true, completion: nil)
-        IdeaStore.save(object: currentIdeaList, withTitle: currentIdeaList.ideaListTitle)
+        self.present(alert, animated: true)
     }
     
     @IBAction func dismissKeyboard(sender: Any) {
@@ -112,7 +127,13 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        if navigationController?.viewControllers.count == 1 {
+            checkForIdeaStore()
+        } else {
+            listTitleLabel.text = currentIdeaList.ideaListTitle
+        }
+        
         updateUI(for: currentIdea.index)
         formatContentTextViewParameters()
         if ideaIsAtIndex() {
@@ -120,24 +141,30 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
         }
         performMiscUIActions()
-        IdeaStore.checkRealmForLastUsedDefaultListNumber()
     }
     
     // MARK:- IDEA HANDLERS/INITIALIZERS
     
     
     // Check if first VC on Nav stack and handle IdeaStore appropriately
-    func isFirstViewControllerOnNavStack() -> Bool {
-        if navigationController?.viewControllers.count == 1 {
-            return true
+    func checkForIdeaStore(){
+        // Create instances for
+        currentIdeaList = IdeaStore()
+        currentIdea = Idea()
+        if let fetchedListNumber = IdeaStore.fetchLastListNumber() {
+            // Update object property and add 1 to last number
+            currentIdeaList.ideaListNumber.value = fetchedListNumber + 1
+            // Update UI
+            listTitleLabel.text = "List \(currentIdeaList.ideaListNumber.value ?? 0)"
+            currentIdeaList.ideaListTitle = listTitleLabel.text ?? "#"
+        } else {
+            // For default list number 1
+            currentIdeaList.ideaListNumber.value = 1
+            listTitleLabel.text = "List \(currentIdeaList.ideaListNumber.value!)"
+            currentIdeaList.ideaListTitle = listTitleLabel.text!
         }
-        return false
     }
-    
-    
-    // Logic for default idea list name counter
-    // in idea store
-    
+        
     
     // Persisting already created ideas when navigation through flow
     // Check array and if already created, grab idea at currentIdea.index
@@ -169,12 +196,13 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             destination.currentIdea = currentIdeaList.allIdeas[currentIdea.index]
         }
         destination.currentIdeaList = currentIdeaList
+        destination.currentIdeaList.ideaListTitle = currentIdeaList.ideaListTitle
         navigationController?.pushViewController(destination, animated: true)
     }
     
     // MARK:- UI ELEMENTS METHODS
     
-    //Update index on current view & prepare indices on proximity views
+    // Update index on current view & prepare indices on proximity views
     func updateUI(for index:Int){
         switch index {
         case 1:
@@ -194,7 +222,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     func performMiscUIActions(){
         contentTextView.delegate = self
         self.navigationItem.title = ""
-        listNumberLabel.text = currentIdeaList.ideaListTitle
         ideaNumberLabel.text = String(currentIdea.index)
         // Disable next button if no text
         if contentTextView.text.isEmpty {

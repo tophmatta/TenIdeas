@@ -12,9 +12,17 @@ class IdeasViewController: UITableViewController {
     
     var ideaStore: IdeaStore!
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ideaStore.allIdeas.count
+    let allLists = IdeaStore.fetchAllListsWithTitle()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        
+        
     }
+    
+//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return allLists.count
+//    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create an instance of UITableViewCell, with default appearance

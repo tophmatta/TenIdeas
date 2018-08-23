@@ -22,11 +22,9 @@ class IdeaStore: Object {
     static func fetchLastListNumber() -> Int? {
         let realm = try! Realm()
         let ideaStores = realm.objects(IdeaStore.self)
-        let ideaListNumbers = Array(ideaStores.map{$0.ideaListNumber})
-        guard let lastListNumber = ideaListNumbers.last?.value else {
-            return nil
-        }
-        return lastListNumber
+        let ideaListNumbers = Array(ideaStores.map{$0.ideaListNumber.value})
+        let ideaListNumberCount = ideaListNumbers.filter({$0 != nil}).count
+        return ideaListNumberCount
     }
         
     static func save(object: IdeaStore){
@@ -35,19 +33,20 @@ class IdeaStore: Object {
             realm.add(object)
         }
     }
-    // TODO: Do something with result
-    static func getObject(withKey key: String){
+    static func fetchAllListsWithTitle() {
         let realm = try! Realm()
-        let obj = realm.objects(IdeaStore.self)
-        //print(obj.allIdeas)
+        let listOfIdeaLists = Array(realm.objects(IdeaStore.self).map({$0.allIdeas}))
+        let listOfIdeaTitles = Array(realm.objects(IdeaStore.self).map({$0.ideaListTitle}))
+        
+        var dict = [String:List<Idea>]()
+        for i in 0..<listOfIdeaLists.count {
+            let title = listOfIdeaTitles[i]
+            let list = listOfIdeaLists[i]
+            dict[title] = list
+        }
+        print(dict)
     }
-    // Check realm db for last default list # used
     
-    static func checkRealmForLastUsedDefaultListNumber(){
-        let realm = try! Realm()
-        //let filter = "List"
-        let name = realm.objects(IdeaStore.self).filter("ideaListTitle == 'List'")
-    }
-
+    //static func fetchAllIdeas
 }
 

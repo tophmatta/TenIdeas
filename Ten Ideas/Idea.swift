@@ -13,7 +13,6 @@ class Idea: Object {
     @objc dynamic var text: String = ""
     @objc dynamic var bookmark: Bool = false
     @objc dynamic var index: Int = 1
-    //@objc dynamic let dateCreated: Date = Date()
     
     convenience init(text: String, bookmark: Bool, index: Int){
         self.init()

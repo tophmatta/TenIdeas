@@ -25,6 +25,11 @@ class MainMenuViewController: UIViewController {
         }
     }
     
+    @IBAction func fetchDataButtonPressed(_ sender: Any) {
+        
+        print(IdeaStore.fetchAllListsWithTitle())
+    }
+    
     func pullUpNavController(){
         let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
         let navVC = UINavigationController(rootViewController: destination) as UIViewController

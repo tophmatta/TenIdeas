@@ -70,7 +70,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         })
         alert.addAction(yesAction)
         alert.addAction(noAction)
-        
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -101,23 +100,9 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
                 IdeaStore.save(object: self.currentIdeaList)
             })
         })
-        
-//        alert.addTextField { (textfield) in
-//            if let textfieldText = textfield.text, !textfield.text!.isEmpty {
-//                // Value for user defined name
-//                self.currentIdeaList.ideaListTitle = textfieldText
-//                self.currentIdeaList.ideaListNumber.value = nil
-//            } else {
-//                // Update idea list title property with title label text
-//                self.currentIdeaList.ideaListTitle = self.listTitleLabel.text ?? "error"
-//            }
-//        }
-        
-        
         alert.addTextField(configurationHandler: nil)
         alert.addAction(yesUpdateAction)
         alert.addAction(noAction)
-        
         self.present(alert, animated: true)
     }
     
@@ -140,7 +125,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             contentTextView.text = currentIdea.text
             placeholderLabel.isHidden = contentTextView.text.isEmpty ? false : true
         }
-        performMiscUIActions()
+        performMiscellaneousUIActions()
     }
     
     // MARK:- IDEA HANDLERS/INITIALIZERS
@@ -219,7 +204,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     // Miscellaneous UI actions
-    func performMiscUIActions(){
+    func performMiscellaneousUIActions(){
         contentTextView.delegate = self
         self.navigationItem.title = ""
         ideaNumberLabel.text = String(currentIdea.index)
@@ -275,7 +260,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             static let cancelMessage = "All list items will be deleted."
             static let nameTitle = "Feel like naming your list?"
             static let nameMessage = "If so, cool. If not, cool."
-            static let yesUpdate = "Yes, update"
+            static let yesUpdate = "Yes, Update"
             static let yes = "Yes"
             static let no = "No"
         }

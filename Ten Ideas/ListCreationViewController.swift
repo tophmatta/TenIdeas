@@ -36,26 +36,45 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
-        // if content text view not same as currentIdea text or idea hasn't been saved, spawn alert view
+        
         
         guard contentTextView.text.isEmpty else {
-            let alert = UIAlertController.init(title: Constant.Alert.deleteTitle, message: Constant.Alert.deleteMessage, preferredStyle: .alert)
-            let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
-                if self.ideaIsAtIndex(), self.currentIdeaList.allIdeas[self.currentIdea.index-1].text != self.contentTextView.text, let contentTVtext = self.contentTextView.text {
+            
+            // if content text view not same as currentIdea text or idea hasn't been saved, spawn alert view
+            if self.ideaIsAtIndex(), self.currentIdeaList.allIdeas[self.currentIdea.index-1].text != self.contentTextView.text, let contentTVtext = self.contentTextView.text {
+                // idea is at index but has been changed
+                let alert = UIAlertController.init(title: Constant.Alert.deleteTitle, message: Constant.Alert.deleteMessage, preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
                     self.currentIdeaList.allIdeas[self.currentIdea.index-1].text = contentTVtext
-                } else {
-                    self.appendIdea()
+                    self.navigationController?.popViewController(animated: true)
+                })
+                let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (UIAlertAction) in
+                    self.navigationController?.popViewController(animated: true)
                 }
-                self.navigationController?.popViewController(animated: true)
-            })
-            let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (UIAlertAction) in
-                self.navigationController?.popViewController(animated: true)
+                alert.addAction(yesAction)
+                alert.addAction(noAction)
+                self.present(alert, animated: true, completion: nil)
+                return
+            } else if !ideaIsAtIndex(){
+                // idea is not a current index
+                let alert = UIAlertController.init(title: Constant.Alert.deleteTitle, message: Constant.Alert.deleteMessage, preferredStyle: .alert)
+                let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
+                    self.appendIdea()
+                    self.navigationController?.popViewController(animated: true)
+                })
+                let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (UIAlertAction) in
+                    self.navigationController?.popViewController(animated: true)
+                }
+                alert.addAction(yesAction)
+                alert.addAction(noAction)
+                self.present(alert, animated: true, completion: nil)
+                return
             }
-            alert.addAction(yesAction)
-            alert.addAction(noAction)
-            self.present(alert, animated: true, completion: nil)
+            // called when idea exists in store and is unchanged
+            navigationController?.popViewController(animated: true)
             return
         }
+        // called when text empty
         navigationController?.popViewController(animated: true)
     }
     
@@ -110,9 +129,13 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         contentTextView.resignFirstResponder()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if navigationController?.viewControllers.count == 1 {
             checkForIdeaStore()
         } else {
@@ -129,7 +152,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     // MARK:- IDEA HANDLERS/INITIALIZERS
-    
     
     // Check if first VC on Nav stack and handle IdeaStore appropriately
     func checkForIdeaStore(){
@@ -243,9 +265,13 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     
     // Setting character count - checks # of characters each time text is changed by replacing the same text w/ itself
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
-        return numberOfChars < 200
+        if text != "\n" {
+            return numberOfChars < 200
+        }
+        return false
     }
 
     // MARK:- CONSTANTS

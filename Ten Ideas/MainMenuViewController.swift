@@ -11,13 +11,14 @@ import RealmSwift
 
 class MainMenuViewController: UIViewController {
     
-    //var ideaStore: IdeaStore!
-    //var idea: Idea! = Idea()
-    
     @IBAction func startListSequence(_ sender: Any) {
-        pullUpNavController()
+        pullUpNavController(withIdentifier: "lvc")
     }
-        
+    
+    @IBAction func showAllListsButtonPressed(_ sender: Any) {
+        pullUpNavController(withIdentifier: "ivc")
+    }
+    
     @IBAction func deleteRealmObjects(_ sender: Any) {
         let realm = try! Realm()
         try! realm.write {
@@ -30,12 +31,16 @@ class MainMenuViewController: UIViewController {
         print(IdeaStore.fetchAllListsWithTitle())
     }
     
-    func pullUpNavController(){
-        let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
-        let navVC = UINavigationController(rootViewController: destination) as UIViewController
-        navVC.navigationItem.title = ""
-        //destination.currentIdeaList = ideaStore
-        //destination.currentIdea = idea
-        self.show(navVC, sender: self)
+    func pullUpNavController(withIdentifier identifier: String){
+        if identifier == "lvc"{
+            let destination = self.storyboard?.instantiateViewController(withIdentifier: identifier) as! ListCreationViewController
+            let navVC = UINavigationController(rootViewController: destination) as UIViewController
+            navVC.navigationItem.title = ""
+            self.show(navVC, sender: self)
+        } else if identifier == "ivc"{
+            //let destination = self.storyboard?.instantiateViewController(withIdentifier: identifier) as! IdeasViewController
+            //let navVC = UINavigationController(rootViewController: destination) as UIViewController
+            //self.show(navVC, sender: self)
+        }
     }
 }

@@ -15,7 +15,7 @@
 		6DD70F5220C0D90B00F6A762 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DD70F5020C0D90B00F6A762 /* Main.storyboard */; };
 		6DD70F5420C0D90D00F6A762 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6DD70F5320C0D90D00F6A762 /* Assets.xcassets */; };
 		6DD70F5720C0D90D00F6A762 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DD70F5520C0D90D00F6A762 /* LaunchScreen.storyboard */; };
-		6DD70F5F20C0E0BF00F6A762 /* IdeasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD70F5E20C0E0BF00F6A762 /* IdeasViewController.swift */; };
+		6DD70F5F20C0E0BF00F6A762 /* AllIdeaListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD70F5E20C0E0BF00F6A762 /* AllIdeaListsViewController.swift */; };
 		6DD70F6120C0E42E00F6A762 /* Idea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD70F6020C0E42E00F6A762 /* Idea.swift */; };
 		E92115AA23BB8B1424532724 /* Pods_Ten_Ideas.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1526FF2977A5A71BA3688 /* Pods_Ten_Ideas.framework */; };
 /* End PBXBuildFile section */
@@ -34,7 +34,7 @@
 		6DD70F5320C0D90D00F6A762 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6DD70F5620C0D90D00F6A762 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6DD70F5820C0D90D00F6A762 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6DD70F5E20C0E0BF00F6A762 /* IdeasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeasViewController.swift; sourceTree = "<group>"; };
+		6DD70F5E20C0E0BF00F6A762 /* AllIdeaListsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllIdeaListsViewController.swift; sourceTree = "<group>"; };
 		6DD70F6020C0E42E00F6A762 /* Idea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Idea.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,7 +94,7 @@
 				6D163C2020C6175C0018B92E /* IdeaStore.swift */,
 				6D802A8020F4309F000FF1F8 /* ListCreationViewController.swift */,
 				6DB2102C20C8CF3800C8020A /* MainMenuViewController.swift */,
-				6DD70F5E20C0E0BF00F6A762 /* IdeasViewController.swift */,
+				6DD70F5E20C0E0BF00F6A762 /* AllIdeaListsViewController.swift */,
 				6D9CECF52132152B00DA07D2 /* ItemizedIdeaViewController.swift */,
 				6DD70F5320C0D90D00F6A762 /* Assets.xcassets */,
 				6DD70F5520C0D90D00F6A762 /* LaunchScreen.storyboard */,
@@ -220,7 +220,7 @@
 				6DD70F4D20C0D90B00F6A762 /* AppDelegate.swift in Sources */,
 				6DB2102D20C8CF3800C8020A /* MainMenuViewController.swift in Sources */,
 				6D802A8120F4309F000FF1F8 /* ListCreationViewController.swift in Sources */,
-				6DD70F5F20C0E0BF00F6A762 /* IdeasViewController.swift in Sources */,
+				6DD70F5F20C0E0BF00F6A762 /* AllIdeaListsViewController.swift in Sources */,
 				6D163C2120C6175C0018B92E /* IdeaStore.swift in Sources */,
 				6D9CECF62132152B00DA07D2 /* ItemizedIdeaViewController.swift in Sources */,
 				6DD70F6120C0E42E00F6A762 /* Idea.swift in Sources */,

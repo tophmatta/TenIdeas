@@ -12,11 +12,10 @@ import RealmSwift
 class MainMenuViewController: UIViewController {
     
     @IBAction func startListSequence(_ sender: Any) {
-        pullUpNavController(withIdentifier: "lvc")
-    }
-    
-    @IBAction func showAllListsButtonPressed(_ sender: Any) {
-        pullUpNavController(withIdentifier: "ivc")
+        let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
+        let navVC = UINavigationController(rootViewController: destination) as UIViewController
+        navVC.navigationItem.title = ""
+        self.show(navVC, sender: self)
     }
     
     @IBAction func deleteRealmObjects(_ sender: Any) {
@@ -26,21 +25,4 @@ class MainMenuViewController: UIViewController {
         }
     }
     
-    @IBAction func fetchDataButtonPressed(_ sender: Any) {
-        
-        print(IdeaStore.fetchAllListsWithTitle())
-    }
-    
-    func pullUpNavController(withIdentifier identifier: String){
-        if identifier == "lvc"{
-            let destination = self.storyboard?.instantiateViewController(withIdentifier: identifier) as! ListCreationViewController
-            let navVC = UINavigationController(rootViewController: destination) as UIViewController
-            navVC.navigationItem.title = ""
-            self.show(navVC, sender: self)
-        } else if identifier == "ivc"{
-            //let destination = self.storyboard?.instantiateViewController(withIdentifier: identifier) as! IdeasViewController
-            //let navVC = UINavigationController(rootViewController: destination) as UIViewController
-            //self.show(navVC, sender: self)
-        }
-    }
 }

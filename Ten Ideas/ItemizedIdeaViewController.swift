@@ -1,5 +1,5 @@
 //
-//  ItemizedIdeaTableViewController.swift
+//  ItemizedIdeaViewController.swift
 //  Ten Ideas
 //
 //  Created by Toph on 8/25/18.
@@ -26,9 +26,16 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "UITableViewCell")
         cell.textLabel?.text = passedReviewIdeaStore.allIdeas[indexPath.row].text
+        cell.textLabel?.numberOfLines = 0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        //cell.textLabel?.lineBreakMode = .byWordWrapping
 
         return cell
     }
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 100.0
+//    }
 
 
 }

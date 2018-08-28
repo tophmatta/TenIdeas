@@ -1,5 +1,5 @@
 //
-//  IdeasViewController.swift
+//  IAllIdeaListsViewController.swift
 //  Ten Ideas
 //
 //  Created by Toph on 5/31/18.
@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class IdeasViewController: UITableViewController {
+class AllIdeaListsViewController: UITableViewController {
     
     // Delegate and Datas source set in storyboard
     @IBOutlet var tableview: UITableView!
@@ -67,11 +67,4 @@ class IdeasViewController: UITableViewController {
             vc.passedReviewIdeaStore = IdeaStore.fetchIdeaStoreForDetailView(with: objectTitleToPass)
         }
     }
-    
-//    func pushDetailViewOntoStack(){
-//        let destination = self.storyboard?.instantiateViewController(withIdentifier: "itemized") as! ItemizedIdeaTableViewController
-//        destination.passedReviewIdeaStore = IdeaStore.fetchIdeaStoreForDetailView(with: objectTitleToPass)
-//        navigationController?.pushViewController(destination, animated: true)
-//    }
-    
 }

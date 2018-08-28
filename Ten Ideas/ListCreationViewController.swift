@@ -79,17 +79,21 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
-        let alert = UIAlertController.init(title: Constant.Alert.cancelTitle, message: Constant.Alert.cancelMessage, preferredStyle: .alert)
-        let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (action) in
-            self.presentedViewController?.dismiss(animated: false, completion: nil)
+        guard contentTextView.text.isEmpty else {
+            let alert = UIAlertController.init(title: Constant.Alert.cancelTitle, message: Constant.Alert.cancelMessage, preferredStyle: .alert)
+            let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (action) in
+                self.presentedViewController?.dismiss(animated: false, completion: nil)
+            }
+            let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
+                self.presentedViewController?.dismiss(animated: false, completion: nil)
+                self.dismiss(animated: true, completion: nil)
+            })
+            alert.addAction(yesAction)
+            alert.addAction(noAction)
+            self.present(alert, animated: true, completion: nil)
+            return
         }
-        let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
-            self.presentedViewController?.dismiss(animated: false, completion: nil)
-            self.dismiss(animated: true, completion: nil)
-        })
-        alert.addAction(yesAction)
-        alert.addAction(noAction)
-        self.present(alert, animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func finishButtonPressed(_ sender: Any) {

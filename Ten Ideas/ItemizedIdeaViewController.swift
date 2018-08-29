@@ -28,10 +28,37 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
         cell.textLabel?.text = passedReviewIdeaStore.allIdeas[indexPath.row].text
         cell.textLabel?.numberOfLines = 0
         tableView.rowHeight = UITableViewAutomaticDimension
-        //cell.textLabel?.lineBreakMode = .byWordWrapping
+        if passedReviewIdeaStore.allIdeas[indexPath.row].bookmark {
+            cell.accessoryType = .checkmark
+        }
 
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if let cell = tableView.cellForRow(at: indexPath){
+            if cell.accessoryType == .checkmark {
+                cell.accessoryType = .none
+                print(passedReviewIdeaStore.allIdeas[indexPath.row].bookmark)
+                let realm = try! Realm()
+                try! realm.write {
+                    passedReviewIdeaStore.allIdeas[indexPath.row].bookmark = false
+                }
+            } else {
+                cell.accessoryType = .checkmark
+                print(passedReviewIdeaStore.allIdeas[indexPath.row].bookmark)
+                let realm = try! Realm()
+                try! realm.write {
+                    passedReviewIdeaStore.allIdeas[indexPath.row].bookmark = true
+                }
+            }
+        }
+        
+    }
+    
+    
     
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return 100.0

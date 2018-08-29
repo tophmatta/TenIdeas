@@ -24,5 +24,4 @@ class MainMenuViewController: UIViewController {
             realm.deleteAll()
         }
     }
-    
 }

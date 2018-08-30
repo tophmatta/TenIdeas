@@ -19,7 +19,7 @@ class IdeaStore: Object {
         self.ideaListTitle = ideaListTitle
     }
     
-    // Grabs last non nil list number for new list seq
+    // Grabs last non nil integer for new list seq
     static func fetchLastListNumber() -> Int? {
         let realm = try! Realm()
         let ideaStores = realm.objects(IdeaStore.self)
@@ -57,6 +57,5 @@ class IdeaStore: Object {
         return ideaStore
     }
     
-    //static func fetchAllIdeas
 }
 

@@ -41,14 +41,12 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
         if let cell = tableView.cellForRow(at: indexPath){
             if cell.accessoryType == .checkmark {
                 cell.accessoryType = .none
-                print(passedReviewIdeaStore.allIdeas[indexPath.row].bookmark)
                 let realm = try! Realm()
                 try! realm.write {
                     passedReviewIdeaStore.allIdeas[indexPath.row].bookmark = false
                 }
             } else {
                 cell.accessoryType = .checkmark
-                print(passedReviewIdeaStore.allIdeas[indexPath.row].bookmark)
                 let realm = try! Realm()
                 try! realm.write {
                     passedReviewIdeaStore.allIdeas[indexPath.row].bookmark = true

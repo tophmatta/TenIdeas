@@ -11,10 +11,16 @@ import RealmSwift
 
 class MainMenuViewController: UIViewController {
     
+    // View outlets
     @IBOutlet var tenSqaureView: UIView!
-    
     @IBOutlet var yellowView: UIView!
     
+    // Button outlets
+    @IBOutlet var createNewButtonLabel: UIButton!
+    @IBOutlet var randomButtonLabel: UIButton!
+    @IBOutlet var viewButtonLabel: UIButton!
+    
+    // Constrain outlets
     @IBOutlet var yellowTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var blueTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var redTrailingConstraint: NSLayoutConstraint!
@@ -25,43 +31,11 @@ class MainMenuViewController: UIViewController {
         yellowTrailingConstraint.constant = screenWidth
         blueTrailingConstraint.constant = screenWidth
         redTrailingConstraint.constant = screenWidth
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
-        tenSqaureView.backgroundColor = UIColor.clear
-        tenSqaureView.layer.borderWidth = 2
-        tenSqaureView.layer.borderColor = UIColor.black.cgColor
+        createNewButtonLabel.alpha = 0
+        randomButtonLabel.alpha = 0
+        viewButtonLabel.alpha = 0
         
-        
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(false)
-        
-        
-        
-        updateOffScreenView(forConstraint: yellowTrailingConstraint, withDelay: 0)
-        updateOffScreenView(forConstraint: blueTrailingConstraint, withDelay: 0.25)
-        updateOffScreenView(forConstraint: redTrailingConstraint, withDelay: 0.5)
-        
-    }
-    
-    
-    
-    func updateOffScreenView(forConstraint constraint:NSLayoutConstraint, withDelay delay:Double){
-        let screenWidth = view.frame.width
-        constraint.constant -= screenWidth
-        
-        UIView.animate(withDuration: 1.5,
-                       delay: delay,
-                       options: [],
-                       animations: {
-                        self.view.layoutIfNeeded()
-        },
-                       completion: nil)
     }
     
     @IBAction func startListSequence(_ sender: Any) {
@@ -76,5 +50,52 @@ class MainMenuViewController: UIViewController {
         try! realm.write {
             realm.deleteAll()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tenSqaureView.backgroundColor = UIColor.clear
+        tenSqaureView.layer.borderWidth = 2
+        tenSqaureView.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        
+        fadeIn(buttonLabel: createNewButtonLabel, withDelay: 0.25)
+        fadeIn(buttonLabel: randomButtonLabel, withDelay: 0.5)
+        fadeIn(buttonLabel: viewButtonLabel, withDelay: 0.75)
+        
+        updateOffScreenView(forConstraint: yellowTrailingConstraint, withDelay: 0)
+        updateOffScreenView(forConstraint: blueTrailingConstraint, withDelay: 0.25)
+        updateOffScreenView(forConstraint: redTrailingConstraint, withDelay: 0.5)
+        
+    }
+    
+    func fadeIn(buttonLabel: UIButton, withDelay delay:Double){
+        
+        UIView.animate(withDuration: 2.0,
+                       delay: delay,
+                       options: [],
+                       animations: {
+                        
+                        buttonLabel.alpha = 1
+        },
+                       completion: nil)
+    }
+    
+    
+    func updateOffScreenView(forConstraint constraint:NSLayoutConstraint, withDelay delay:Double){
+        let screenWidth = view.frame.width
+        constraint.constant -= screenWidth
+        
+        UIView.animate(withDuration: 1.5,
+                       delay: delay,
+                       options: [],
+                       animations: {
+                        self.view.layoutIfNeeded()
+        },
+                       completion: nil)
     }
 }

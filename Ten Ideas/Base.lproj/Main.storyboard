@@ -100,26 +100,26 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YGe-Wc-LGp" userLabel="YellowView">
-                                <rect key="frame" x="139" y="427.66666666666669" width="275" height="6"/>
+                                <rect key="frame" x="164" y="427.66666666666669" width="250" height="6"/>
                                 <color key="backgroundColor" red="0.97254901960784312" green="0.90588235294117647" blue="0.10980392156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="6" id="2Fq-im-rz6"/>
-                                    <constraint firstAttribute="width" constant="275" id="DGS-uN-ZEl"/>
+                                    <constraint firstAttribute="width" constant="250" id="DGS-uN-ZEl"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xlL-wY-Ruc" userLabel="BlueView">
-                                <rect key="frame" x="189" y="507.66666666666669" width="225" height="6.0000000000000568"/>
+                                <rect key="frame" x="214" y="507.66666666666669" width="200" height="6.0000000000000568"/>
                                 <color key="backgroundColor" red="0.2901960784" green="0.56470588239999997" blue="0.8862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="225" id="op6-tl-YRD"/>
+                                    <constraint firstAttribute="width" constant="200" id="op6-tl-YRD"/>
                                     <constraint firstAttribute="height" constant="6" id="v3I-TY-s3L"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G8N-It-6Gj" userLabel="RedView">
-                                <rect key="frame" x="239" y="587.66666666666663" width="175" height="6"/>
+                                <rect key="frame" x="279" y="587.66666666666663" width="135" height="6"/>
                                 <color key="backgroundColor" red="0.81568627449999997" green="0.0" blue="0.1019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="175" id="EGU-Pd-z3P"/>
+                                    <constraint firstAttribute="width" constant="135" id="EGU-Pd-z3P"/>
                                     <constraint firstAttribute="height" constant="6" id="xMm-Aa-3qd"/>
                                 </constraints>
                             </view>
@@ -149,8 +149,11 @@
                     </view>
                     <connections>
                         <outlet property="blueTrailingConstraint" destination="20o-vv-1K7" id="XtY-wm-IjW"/>
+                        <outlet property="createNewButtonLabel" destination="Exu-XI-X3j" id="Ed2-ej-GB9"/>
+                        <outlet property="randomButtonLabel" destination="0QX-sh-1Bt" id="q7j-ic-WDm"/>
                         <outlet property="redTrailingConstraint" destination="GAa-YX-fax" id="PHB-Ly-92L"/>
                         <outlet property="tenSqaureView" destination="C3B-TQ-1Ot" id="N0R-Hi-pmx"/>
+                        <outlet property="viewButtonLabel" destination="qwa-x3-RDW" id="FlR-WR-bR5"/>
                         <outlet property="yellowTrailingConstraint" destination="H1o-7A-B2Z" id="oQt-Af-kNM"/>
                         <outlet property="yellowView" destination="YGe-Wc-LGp" id="dYd-Af-Kfy"/>
                     </connections>

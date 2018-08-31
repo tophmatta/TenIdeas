@@ -13,9 +13,12 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
     
     var passedReviewIdeaStore:IdeaStore!
     
+    @IBOutlet var tableview: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = passedReviewIdeaStore.ideaListTitle
+        tableview.separatorColor = UIColor.black
         
     }
     
@@ -27,6 +30,7 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "UITableViewCell")
         cell.textLabel?.text = passedReviewIdeaStore.allIdeas[indexPath.row].text
         cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 24, weight: .thin)
         tableView.rowHeight = UITableViewAutomaticDimension
         if passedReviewIdeaStore.allIdeas[indexPath.row].bookmark {
             cell.accessoryType = .checkmark
@@ -56,11 +60,5 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
         
     }
     
-    
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 100.0
-//    }
-
 
 }

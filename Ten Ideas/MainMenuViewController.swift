@@ -11,6 +11,8 @@ import RealmSwift
 
 class MainMenuViewController: UIViewController {
     
+    let impact = UIImpactFeedbackGenerator()
+    
     // View outlets
     @IBOutlet var tenSqaureView: UIView!
     @IBOutlet var yellowView: UIView!

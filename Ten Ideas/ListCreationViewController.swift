@@ -21,7 +21,15 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     var currentIdeaList: IdeaStore!
     var currentIdea: Idea!
     
+    // Initialize haptic feeback generator
+    let impact = UIImpactFeedbackGenerator(style: UIImpactFeedbackStyle.medium)
+    
+    
     @IBAction func nextButtonPressed(_ sender: Any) {
+        
+        // Haptic feedback action
+        impact.impactOccurred()
+        
         // 1) Checks to see if index exists in ideaStore
         // 2) If contentTextView doesn't equal ideaStore object text, update object text in allIdeas array
         if ideaIsAtIndex() {
@@ -37,9 +45,10 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     
     @IBAction func backButtonPressed(_ sender: Any) {
         
+        // Haptic feedback action
+        impact.impactOccurred()
         
         guard contentTextView.text.isEmpty else {
-            
             // if content text view not same as currentIdea text or idea hasn't been saved, spawn alert view
             if self.ideaIsAtIndex(), self.currentIdeaList.allIdeas[self.currentIdea.index-1].text != self.contentTextView.text, let contentTVtext = self.contentTextView.text {
                 // idea is at index but has been changed
@@ -140,12 +149,13 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Check if IdeaStore needs to be instantiated
         if navigationController?.viewControllers.count == 1 {
             checkForIdeaStore()
         } else {
             listTitleLabel.text = currentIdeaList.ideaListTitle
         }
-        
         updateUI(for: currentIdea.index)
         formatContentTextViewParameters()
         if ideaIsAtIndex() {
@@ -175,7 +185,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             currentIdeaList.ideaListTitle = listTitleLabel.text!
         }
     }
-        
     
     // Persisting already created ideas when navigation through flow
     // Check array and if already created, grab idea at currentIdea.index
@@ -272,9 +281,12 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         let numberOfChars = newText.count
+        // If text is not equal to line break/return
         if text != "\n" {
             return numberOfChars < 200
         }
+        // text = to return; dismiss keyboard
+        contentTextView.resignFirstResponder()
         return false
     }
 

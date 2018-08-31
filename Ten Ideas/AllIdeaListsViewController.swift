@@ -29,6 +29,9 @@ class AllIdeaListsViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
+        
+        tableview.separatorColor = UIColor.black
+        
         for (key,value) in tableviewData {
             listFetchArray.append(ListFetch(title: key, content: value))
         }
@@ -45,6 +48,10 @@ class AllIdeaListsViewController: UITableViewController {
         // Set the text on the cell with the description of the idea
             
         cell.textLabel?.text = listFetchArray[indexPath.row].title
+        
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 40, weight: .ultraLight)
+        cell.textLabel?.numberOfLines = 0
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         return cell
     }

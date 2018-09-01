@@ -12,6 +12,7 @@ import RealmSwift
 class MainMenuViewController: UIViewController {
     
     let impact = UIImpactFeedbackGenerator()
+    var hasRunAnimation:Bool?
     
     // View outlets
     @IBOutlet var tenSqaureView: UIView!
@@ -29,15 +30,18 @@ class MainMenuViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
-        let screenWidth = view.frame.width
-        yellowTrailingConstraint.constant = screenWidth
-        blueTrailingConstraint.constant = screenWidth
-        redTrailingConstraint.constant = screenWidth
         
-        createNewButtonLabel.alpha = 0
-        randomButtonLabel.alpha = 0
-        viewButtonLabel.alpha = 0
-        
+        if hasRunAnimation == nil {
+            let screenWidth = view.frame.width
+            
+            yellowTrailingConstraint.constant = screenWidth
+            blueTrailingConstraint.constant = screenWidth
+            redTrailingConstraint.constant = screenWidth
+            
+            createNewButtonLabel.alpha = 0
+            randomButtonLabel.alpha = 0
+            viewButtonLabel.alpha = 0
+        }
     }
     
     @IBAction func startListSequence(_ sender: Any) {
@@ -65,18 +69,20 @@ class MainMenuViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
         
-        fadeIn(buttonLabel: createNewButtonLabel, withDelay: 0.25)
-        fadeIn(buttonLabel: randomButtonLabel, withDelay: 0.5)
-        fadeIn(buttonLabel: viewButtonLabel, withDelay: 0.75)
-        
-        updateOffScreenView(forConstraint: yellowTrailingConstraint, withDelay: 0)
-        updateOffScreenView(forConstraint: blueTrailingConstraint, withDelay: 0.25)
-        updateOffScreenView(forConstraint: redTrailingConstraint, withDelay: 0.5)
-        
+        if hasRunAnimation == nil {
+            fadeIn(buttonLabel: createNewButtonLabel, withDelay: 0.25)
+            fadeIn(buttonLabel: randomButtonLabel, withDelay: 0.5)
+            fadeIn(buttonLabel: viewButtonLabel, withDelay: 0.75)
+            
+            updateOffScreenView(forConstraint: yellowTrailingConstraint, withDelay: 0)
+            updateOffScreenView(forConstraint: blueTrailingConstraint, withDelay: 0.25)
+            updateOffScreenView(forConstraint: redTrailingConstraint, withDelay: 0.5)
+            
+            hasRunAnimation = true
+        }
     }
     
     func fadeIn(buttonLabel: UIButton, withDelay delay:Double){
-        
         UIView.animate(withDuration: 2.0,
                        delay: delay,
                        options: [],

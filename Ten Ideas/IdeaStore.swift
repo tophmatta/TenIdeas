@@ -57,5 +57,11 @@ class IdeaStore: Object {
         return ideaStore
     }
     
+    static func fetchAllBookmarkedIdeas() -> [Idea]{
+        let realm = try! Realm()
+        let arrayOfIdeas = Array(realm.objects(Idea.self).filter("bookmark == true"))
+        return arrayOfIdeas
+    }
+    
 }
 

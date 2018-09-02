@@ -283,7 +283,7 @@
             </objects>
             <point key="canvasLocation" x="-210" y="-675"/>
         </scene>
-        <!--All Lists-->
+        <!--All Idea Lists View Controller-->
         <scene sceneID="ea4-CX-w80">
             <objects>
                 <tableViewController id="5kY-ba-LDG" customClass="AllIdeaListsViewController" customModule="Ten_Ideas" customModuleProvider="target" sceneMemberID="viewController">
@@ -310,7 +310,19 @@
                             <outlet property="delegate" destination="5kY-ba-LDG" id="8Nc-qa-Yzn"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="All Lists" id="ZYi-2J-9fY">
+                    <navigationItem key="navigationItem" id="ZYi-2J-9fY">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="lYQ-mw-BSp">
+                            <rect key="frame" x="117.66666666666669" y="7" width="179" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="All Lists"/>
+                                <segment title="All Favorited"/>
+                            </segments>
+                            <connections>
+                                <action selector="segmentValueChanged:" destination="5kY-ba-LDG" eventType="valueChanged" id="TWl-WD-Nlk"/>
+                            </connections>
+                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="uOk-S0-Fcw">
                             <connections>
                                 <action selector="doneButtonPressed:" destination="5kY-ba-LDG" id="Xkv-yj-aXM"/>
@@ -318,6 +330,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="lYQ-mw-BSp" id="XVI-NN-WEl"/>
                         <outlet property="tableview" destination="eP2-fy-cl1" id="fYb-p0-67D"/>
                     </connections>
                 </tableViewController>

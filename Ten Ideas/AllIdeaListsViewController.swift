@@ -14,9 +14,17 @@ class AllIdeaListsViewController: UITableViewController {
     // Delegate and Datas source set in storyboard
     @IBOutlet var tableview: UITableView!
     
-    var tableviewData = IdeaStore.fetchAllListsWithTitle()
+    @IBOutlet var segmentedControl: UISegmentedControl!
+    
+    var tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
+    var tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
     var listFetchArray = [ListFetch]()
     var objectTitleToPass:String!
+    
+    
+    @IBAction func segmentValueChanged(_ sender: Any) {
+        tableview.reloadData()
+    }
     
     @IBAction func doneButtonPressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
@@ -32,43 +40,66 @@ class AllIdeaListsViewController: UITableViewController {
         
         tableview.separatorColor = UIColor.black
         
-        for (key,value) in tableviewData {
+        for (key,value) in tableviewDataIdeaStore {
             listFetchArray.append(ListFetch(title: key, content: value))
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableviewData.count
+        // default rows
+        var tableviewCount = tableviewDataIdeaStore.count
+        
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            tableviewCount = tableviewDataIdeaStore.count
+            return tableviewCount
+        case 1:
+            tableviewCount = tableviewDataBookmarkedIdeas.count
+            return tableviewCount
+        default:
+            break
+        }
+        
+        return tableviewCount
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create an instance of UITableViewCell, with default appearance
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "UITableViewCell")
         
-        // Set the text on the cell with the description of the idea
-            
-        cell.textLabel?.text = listFetchArray[indexPath.row].title
+        // Triggered when segm. ctrl. experiences action
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            cell.textLabel?.text = listFetchArray[indexPath.row].title
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 40, weight: .ultraLight)
+        case 1:
+            cell.textLabel?.text = tableviewDataBookmarkedIdeas[indexPath.row].text
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .ultraLight)
+        default:
+            break
+        }
         
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 40, weight: .ultraLight)
         cell.textLabel?.numberOfLines = 0
         tableView.rowHeight = UITableViewAutomaticDimension
-        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Get cell label
-        let indexPath = tableview.indexPathForSelectedRow
-        let currentCell = tableview.cellForRow(at: indexPath!) as UITableViewCell?
         
-        if let cellText = currentCell?.textLabel?.text {
-            objectTitleToPass = cellText
+        if segmentedControl.selectedSegmentIndex != 1 {
+            // Get cell label
+            let indexPath = tableview.indexPathForSelectedRow
+            let currentCell = tableview.cellForRow(at: indexPath!) as UITableViewCell?
+            
+            if let cellText = currentCell?.textLabel?.text {
+                objectTitleToPass = cellText
+            }
+            performSegue(withIdentifier: "itemized", sender: self)
         }
-        //pushDetailViewOntoStack()
-        performSegue(withIdentifier: "itemized", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "itemized" {
             let vc = segue.destination as! ItemizedIdeaViewController
             vc.passedReviewIdeaStore = IdeaStore.fetchIdeaStoreForDetailView(with: objectTitleToPass)

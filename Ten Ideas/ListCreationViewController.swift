@@ -176,12 +176,12 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             // Update object property and add 1 to last number
             currentIdeaList.ideaListNumber.value = fetchedListNumber + 1
             // Update UI
-            listTitleLabel.text = "List \(currentIdeaList.ideaListNumber.value ?? 0)"
+            listTitleLabel.text = "list \(currentIdeaList.ideaListNumber.value ?? 0)"
             currentIdeaList.ideaListTitle = listTitleLabel.text ?? "#"
         } else {
             // For default list number 1
             currentIdeaList.ideaListNumber.value = 1
-            listTitleLabel.text = "List \(currentIdeaList.ideaListNumber.value!)"
+            listTitleLabel.text = "list \(currentIdeaList.ideaListNumber.value!)"
             currentIdeaList.ideaListTitle = listTitleLabel.text!
         }
     }
@@ -259,7 +259,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         // Logic for setting up UITextView placeholder parameters
         placeholderLabel = UILabel()
         placeholderLabel.text = Constant.PlaceholderText.contentTextPlaceholder
-        placeholderLabel.font = UIFont.systemFont(ofSize: (contentTextView.font?.pointSize)!)
+        //placeholderLabel.font = UIFont.systemFont(ofSize: (contentTextView.font?.pointSize)!)
+        placeholderLabel.font = UIFont.systemFont(ofSize: (contentTextView.font?.pointSize)!, weight: .thin)
         placeholderLabel.sizeToFit()
         contentTextView.addSubview(placeholderLabel)
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (contentTextView.font?.pointSize)!/2)
@@ -283,7 +284,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         let numberOfChars = newText.count
         // If text is not equal to line break/return
         if text != "\n" {
-            return numberOfChars < 200
+            return numberOfChars < 175
         }
         // text = to return; dismiss keyboard
         contentTextView.resignFirstResponder()

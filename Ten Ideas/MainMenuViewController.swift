@@ -16,14 +16,13 @@ class MainMenuViewController: UIViewController {
     
     // View outlets
     @IBOutlet var tenSqaureView: UIView!
-    @IBOutlet var yellowView: UIView!
     
     // Button outlets
     @IBOutlet var createNewButtonLabel: UIButton!
     @IBOutlet var randomButtonLabel: UIButton!
     @IBOutlet var viewButtonLabel: UIButton!
     
-    // Constrain outlets
+    // Constraint outlets
     @IBOutlet var yellowTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var blueTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var redTrailingConstraint: NSLayoutConstraint!

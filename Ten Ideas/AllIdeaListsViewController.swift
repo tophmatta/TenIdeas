@@ -11,7 +11,7 @@ import RealmSwift
 
 class AllIdeaListsViewController: UITableViewController {
     
-    // Delegate and Datas source set in storyboard
+    // Delegate and DataSource set in storyboard
     @IBOutlet var tableview: UITableView!
     
     @IBOutlet var segmentedControl: UISegmentedControl!
@@ -23,6 +23,8 @@ class AllIdeaListsViewController: UITableViewController {
     
     
     @IBAction func segmentValueChanged(_ sender: Any) {
+        // Re-fetches newly favorited/unfavorited ideas and refreshes
+        tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
         tableview.reloadData()
     }
     
@@ -71,16 +73,19 @@ class AllIdeaListsViewController: UITableViewController {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             cell.textLabel?.text = listFetchArray[indexPath.row].title
-            cell.textLabel?.font = UIFont.systemFont(ofSize: 40, weight: .ultraLight)
+            cell.textLabel?.font = UIFont.systemFont(ofSize: 30, weight: .ultraLight)
+            cell.selectionStyle = .default
         case 1:
             cell.textLabel?.text = tableviewDataBookmarkedIdeas[indexPath.row].text
             cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .ultraLight)
+            cell.selectionStyle = .none
         default:
             break
         }
         
         cell.textLabel?.numberOfLines = 0
         tableView.rowHeight = UITableViewAutomaticDimension
+        
         return cell
     }
     
@@ -99,7 +104,6 @@ class AllIdeaListsViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if segue.identifier == "itemized" {
             let vc = segue.destination as! ItemizedIdeaViewController
             vc.passedReviewIdeaStore = IdeaStore.fetchIdeaStoreForDetailView(with: objectTitleToPass)

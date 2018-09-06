@@ -14,6 +14,7 @@ class Idea: Object {
     @objc dynamic var bookmark: Bool = false
     @objc dynamic var index: Int = 1
     
+    // Convenience init necessary per Realm requirements
     convenience init(text: String, bookmark: Bool, index: Int){
         self.init()
         self.text = text

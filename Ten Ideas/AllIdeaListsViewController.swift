@@ -17,14 +17,14 @@ class AllIdeaListsViewController: UITableViewController {
     @IBOutlet var segmentedControl: UISegmentedControl!
     
     var tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
-    var tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
+    var tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{$0.text < $1.text}
     var listFetchArray = [ListFetch]()
     var objectTitleToPass:String!
     
     
     @IBAction func segmentValueChanged(_ sender: Any) {
         // Re-fetches newly favorited/unfavorited ideas and refreshes
-        tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
+        tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{$0.text < $1.text}
         tableview.reloadData()
     }
     
@@ -45,6 +45,7 @@ class AllIdeaListsViewController: UITableViewController {
         for (key,value) in tableviewDataIdeaStore {
             listFetchArray.append(ListFetch(title: key, content: value))
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,7 +62,6 @@ class AllIdeaListsViewController: UITableViewController {
         default:
             break
         }
-        
         return tableviewCount
     }
     
@@ -72,7 +72,7 @@ class AllIdeaListsViewController: UITableViewController {
         // Triggered when segm. ctrl. experiences action
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            cell.textLabel?.text = listFetchArray[indexPath.row].title
+            cell.textLabel?.text = listFetchArray.sorted{$0.title < $1.title}[indexPath.row].title
             cell.textLabel?.font = UIFont.systemFont(ofSize: 30, weight: .ultraLight)
             cell.selectionStyle = .default
         case 1:
@@ -82,7 +82,6 @@ class AllIdeaListsViewController: UITableViewController {
         default:
             break
         }
-        
         cell.textLabel?.numberOfLines = 0
         tableView.rowHeight = UITableViewAutomaticDimension
         

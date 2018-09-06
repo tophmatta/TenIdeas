@@ -41,20 +41,31 @@ class MainMenuViewController: UIViewController {
             randomButtonLabel.alpha = 0
             viewButtonLabel.alpha = 0
         }
+        
     }
     
-    @IBAction func startListSequence(_ sender: Any) {
+    @IBAction func createNewButtonPressed(_ sender: Any) {
         let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
         let navVC = UINavigationController(rootViewController: destination) as UIViewController
         navVC.navigationItem.title = ""
         self.show(navVC, sender: self)
     }
     
-    @IBAction func deleteRealmObjects(_ sender: Any) {
-        let realm = try! Realm()
-        try! realm.write {
-            realm.deleteAll()
+    @IBAction func randomButtonPressed(_ sender: Any) {
+        if !IdeaStore.hasReachedTenCount() {
+            let alert = UIAlertController.init(title: "Almost There!", message: "To random review old lists, you must first create 10", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in
+                self.dismiss(animated: true, completion: nil)
+            })
+            alert.addAction(okAction)
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            performSegue(withIdentifier: "random", sender: self)
         }
+    }
+    
+    @IBAction func deleteRealmObjects(_ sender: Any) {
+        IdeaStore.deleteAllRealmObjects()
     }
     
     override func viewDidLoad() {
@@ -91,7 +102,6 @@ class MainMenuViewController: UIViewController {
         },
                        completion: nil)
     }
-    
     
     func updateOffScreenView(forConstraint constraint:NSLayoutConstraint, withDelay delay:Double){
         let screenWidth = view.frame.width

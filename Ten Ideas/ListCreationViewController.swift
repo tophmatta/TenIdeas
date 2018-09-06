@@ -15,6 +15,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var backButtonLabel: UIButton!
     @IBOutlet var nextButtonLabel: UIButton!
     @IBOutlet var finishButtonLabel: UIButton!
+    @IBOutlet var cancelButtonLabel: UIButton!
     @IBOutlet var contentTextView: UITextView!
     
     var placeholderLabel: UILabel!
@@ -145,6 +146,12 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         navigationController?.setNavigationBarHidden(true, animated: false)
+//        finishButtonLabel.layer.borderColor = UIColor.black.cgColor
+//        finishButtonLabel.layer.borderWidth = 1
+//        finishButtonLabel.layer.cornerRadius = 5
+//        cancelButtonLabel.layer.borderColor = UIColor.black.cgColor
+//        cancelButtonLabel.layer.borderWidth = 1
+//        cancelButtonLabel.layer.cornerRadius = 5
     }
     
     override func viewDidLoad() {

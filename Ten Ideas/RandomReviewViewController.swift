@@ -19,14 +19,7 @@ class RandomReviewViewController: UIViewController, UITableViewDelegate, UITable
         super.viewWillAppear(false)
         navigationBar.backItem?.title = tableviewData.ideaListTitle
         tableview.separatorColor = UIColor.black
-        //print(tableviewData)
-        //print(tableviewData.allIdeas.count)
     }
-    
-    //TODO: 2 PULL IN DATA FROM REALM
-    //TODO: 3 SETUP TABLEVIEW UI ACTIONS SIMILAR TO ITEMIZED IDEA VC
-    //TODO: 1 IDEA LISTS FUNCTIONALITY IN MAIN MENU VC
-    
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
         //TODO: IMPLEM. W/ ALERT VC
@@ -40,7 +33,6 @@ class RandomReviewViewController: UIViewController, UITableViewDelegate, UITable
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(tableviewData.allIdeas.count)
         return tableviewData.allIdeas.count
     }
     

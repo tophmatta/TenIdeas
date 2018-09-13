@@ -275,8 +275,9 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T3n-16-6ua">
-                                <rect key="frame" x="353" y="686" width="41" height="30"/>
+                                <rect key="frame" x="334" y="686" width="60" height="30"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="9HA-vT-KPP"/>
                                     <constraint firstAttribute="height" constant="30" id="rVR-nA-qW5"/>
                                 </constraints>
                                 <state key="normal" title="Finish"/>
@@ -317,9 +318,10 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ujR-fh-YWz">
-                                <rect key="frame" x="20" y="686" width="48" height="30"/>
+                                <rect key="frame" x="20" y="686" width="60" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="ZDN-TL-VcM"/>
+                                    <constraint firstAttribute="width" constant="60" id="nu1-Ow-pbS"/>
                                 </constraints>
                                 <state key="normal" title="Cancel"/>
                                 <connections>

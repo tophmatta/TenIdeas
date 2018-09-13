@@ -146,12 +146,12 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         navigationController?.setNavigationBarHidden(true, animated: false)
-//        finishButtonLabel.layer.borderColor = UIColor.black.cgColor
-//        finishButtonLabel.layer.borderWidth = 1
-//        finishButtonLabel.layer.cornerRadius = 5
-//        cancelButtonLabel.layer.borderColor = UIColor.black.cgColor
-//        cancelButtonLabel.layer.borderWidth = 1
-//        cancelButtonLabel.layer.cornerRadius = 5
+        finishButtonLabel.layer.borderColor = UIColor.black.cgColor
+        finishButtonLabel.layer.borderWidth = 1
+        finishButtonLabel.layer.cornerRadius = 7
+        cancelButtonLabel.layer.borderColor = UIColor.black.cgColor
+        cancelButtonLabel.layer.borderWidth = 1
+        cancelButtonLabel.layer.cornerRadius = 7
     }
     
     override func viewDidLoad() {

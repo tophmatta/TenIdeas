@@ -20,13 +20,20 @@ class IdeaStore: Object {
         self.ideaListTitle = ideaListTitle
     }
     
-    // Grabs last non nil integer for new list seq
+    // Grabs last non nil integer for new list seq - return type optional bc creation of very first list will return nil
+    // and trigger other initial conditions
     static func fetchLastListNumber() -> Int? {
         let realm = try! Realm()
         let ideaStores = realm.objects(IdeaStore.self)
-        let ideaListNumbers = Array(ideaStores.map{$0.ideaListNumber.value})
-        let ideaListNumberCount = ideaListNumbers.filter({$0 != nil}).count
-        return ideaListNumberCount
+        let ideaListNumbers = Array(ideaStores.map{$0.ideaListNumber}) //sorted{$0.value! < $1.value!}
+        var nonNilNumberArray = [Int]()
+        for i in 0..<ideaListNumbers.count {
+            if let nonNilValue = ideaListNumbers[i].value {
+                nonNilNumberArray.append(nonNilValue)
+            }
+        }
+        let lastListNumber = nonNilNumberArray.sorted{$0 < $1}.last
+        return lastListNumber
     }
     
     // Save object to realm
@@ -40,8 +47,8 @@ class IdeaStore: Object {
     // Prepares data for table view of lists themselves
     static func fetchAllListsWithTitle() -> [String:List<Idea>] {
         let realm = try! Realm()
-        let listOfIdeaLists = Array(realm.objects(IdeaStore.self).map({$0.allIdeas}))
-        let listOfIdeaTitles = Array(realm.objects(IdeaStore.self).map({$0.ideaListTitle}))
+        let listOfIdeaLists = Array(realm.objects(IdeaStore.self).map{$0.allIdeas})
+        let listOfIdeaTitles = Array(realm.objects(IdeaStore.self).map{$0.ideaListTitle})
         
         var dict = [String:List<Idea>]()
         for i in 0..<listOfIdeaLists.count {
@@ -74,6 +81,25 @@ class IdeaStore: Object {
         }
     }
     
+    // Delete IdeaStore at specified index
+    static func deleteIdeaStoreObject(withTitle listNameToDelete: String) {
+        let realm = try! Realm()
+        
+        guard let ideaStoreToDelete = realm.objects(IdeaStore.self).filter("ideaListTitle == %@", listNameToDelete).first else { return }
+        
+        try! realm.write {
+            
+            // Delete all ideas associated to IdeaStore (was originally only deleting IdeaStore
+            // and the assoc. Ideas would still be available, therefore had to delete them separately)
+            print("all ideas: \(ideaStoreToDelete.allIdeas)")
+            for item in ideaStoreToDelete.allIdeas {
+                realm.delete(realm.objects(Idea.self).filter("text == %@",item.text).first!)
+            }
+            // Delete IdeaStore itelf
+            realm.delete(ideaStoreToDelete)
+        }
+    }
+    
     // Idea Store count for Rev. Random VC
     static func hasReachedTenCount() -> Bool {
         let realm = try! Realm()
@@ -88,11 +114,6 @@ class IdeaStore: Object {
         let randomNumber = Int(arc4random_uniform(UInt32(listOfIdeaTitles.count)))
         let randomIdeaStoreTitle = listOfIdeaTitles[randomNumber]
         let randomIdeaStoreObject = realm.objects(IdeaStore.self).filter("ideaListTitle == %@", randomIdeaStoreTitle)[0]
-        
-//        print("listOfIdeaTitle: \(listOfIdeaTitles) \n")
-//        print("randomNumber: \(randomNumber) \n")
-//        print("randomIdeaStoreTitle: \(randomIdeaStoreTitle) \n")
-        
         return randomIdeaStoreObject
     }
     

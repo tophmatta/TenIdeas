@@ -18,13 +18,17 @@ class AllIdeaListsViewController: UITableViewController {
     
     var tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
     var tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{$0.text < $1.text}
+    
     var listFetchArray = [ListFetch]()
     var objectTitleToPass:String!
     
     
     @IBAction func segmentValueChanged(_ sender: Any) {
+        
         // Re-fetches newly favorited/unfavorited ideas and refreshes
         tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{$0.text < $1.text}
+        tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
+
         tableview.reloadData()
     }
     
@@ -42,10 +46,12 @@ class AllIdeaListsViewController: UITableViewController {
         
         tableview.separatorColor = UIColor.black
         
+        // Must recalculate each time view appears to refresh changes in
+        listFetchArray.removeAll()
+        
         for (key,value) in tableviewDataIdeaStore {
             listFetchArray.append(ListFetch(title: key, content: value))
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,11 +74,10 @@ class AllIdeaListsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create an instance of UITableViewCell, with default appearance
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "UITableViewCell")
-        
         // Triggered when segm. ctrl. experiences action
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            cell.textLabel?.text = listFetchArray.sorted{$0.title < $1.title}[indexPath.row].title
+            cell.textLabel?.text = listFetchArray[indexPath.row].title
             cell.textLabel?.font = UIFont.systemFont(ofSize: 30, weight: .ultraLight)
             cell.selectionStyle = .default
         case 1:
@@ -89,7 +94,6 @@ class AllIdeaListsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if segmentedControl.selectedSegmentIndex != 1 {
             // Get cell label
             let indexPath = tableview.indexPathForSelectedRow
@@ -99,6 +103,19 @@ class AllIdeaListsViewController: UITableViewController {
                 objectTitleToPass = cellText
             }
             performSegue(withIdentifier: "itemized", sender: self)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let listTitle = listFetchArray[indexPath.row].title
+            IdeaStore.deleteIdeaStoreObject(withTitle: listTitle)
+            
+            tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
+            tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
+            print(indexPath)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            //FIXME: - not deleting bookmarks related to deleted list in favorites. May need to break out favorites tableview on sep VC.
         }
     }
     

@@ -11,6 +11,7 @@ import RealmSwift
 
 class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    // data from AllIdeasViewController
     var passedReviewIdeaStore:IdeaStore!
     
     @IBOutlet var tableview: UITableView!
@@ -22,6 +23,7 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
         
     }
     
+    // MARK: - DELEGATE/DATASOURCE METHODS
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return passedReviewIdeaStore.allIdeas.count
     }

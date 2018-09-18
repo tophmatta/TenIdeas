@@ -59,7 +59,6 @@
                                 </state>
                                 <connections>
                                     <action selector="randomButtonPressed:" destination="4D7-XA-XDK" eventType="touchUpInside" id="XM8-DY-rPX"/>
-                                    <segue destination="hw4-R0-9px" kind="show" identifier="random" id="9ac-bp-UNZ"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C3B-TQ-1Ot">
@@ -118,15 +117,6 @@
                                     <constraint firstAttribute="height" constant="6" id="xMm-Aa-3qd"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cjc-pF-MDX">
-                                <rect key="frame" x="59" y="236" width="113" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="26"/>
-                                <state key="normal" title="del rlm obj"/>
-                                <connections>
-                                    <action selector="deleteRealmObjects:" destination="4D7-XA-XDK" eventType="touchUpInside" id="KhX-0R-uEz"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4je-qJ-BTH">
                                 <rect key="frame" x="20" y="662" width="113" height="54"/>
                                 <constraints>
@@ -166,9 +156,11 @@
                     <connections>
                         <outlet property="blueTrailingConstraint" destination="20o-vv-1K7" id="XtY-wm-IjW"/>
                         <outlet property="createNewButtonLabel" destination="Exu-XI-X3j" id="Ed2-ej-GB9"/>
+                        <outlet property="iLabel" destination="DLH-La-iFi" id="4L7-Br-ufq"/>
                         <outlet property="randomButtonLabel" destination="0QX-sh-1Bt" id="q7j-ic-WDm"/>
                         <outlet property="redTrailingConstraint" destination="GAa-YX-fax" id="PHB-Ly-92L"/>
-                        <outlet property="tenSqaureView" destination="C3B-TQ-1Ot" id="N0R-Hi-pmx"/>
+                        <outlet property="settingsButtonLabel" destination="4je-qJ-BTH" id="dwD-lP-8WZ"/>
+                        <outlet property="tenSqaureView" destination="C3B-TQ-1Ot" id="hRI-98-zkj"/>
                         <outlet property="viewButtonLabel" destination="qwa-x3-RDW" id="FlR-WR-bR5"/>
                         <outlet property="yellowTrailingConstraint" destination="H1o-7A-B2Z" id="oQt-Af-kNM"/>
                     </connections>
@@ -356,7 +348,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="e3n-v4-aLq">
-                                <rect key="frame" x="49" y="166" width="316" height="163"/>
+                                <rect key="frame" x="49" y="166" width="316" height="348"/>
                                 <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="28"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
@@ -445,7 +437,7 @@
                             <constraint firstItem="Ibd-RI-F9Z" firstAttribute="centerX" secondItem="nQk-9O-OlA" secondAttribute="centerX" id="nvg-YQ-8Ru"/>
                             <constraint firstItem="nQk-9O-OlA" firstAttribute="leading" secondItem="whQ-vG-Ilt" secondAttribute="leading" constant="49" id="ofV-Rr-dCS"/>
                             <constraint firstItem="whQ-vG-Ilt" firstAttribute="bottom" secondItem="T3n-16-6ua" secondAttribute="bottom" constant="20" id="x4j-Ys-XLT"/>
-                            <constraint firstItem="f1K-ZI-H6r" firstAttribute="top" relation="lessThanOrEqual" secondItem="e3n-v4-aLq" secondAttribute="bottom" constant="285" id="yvQ-bB-fkk"/>
+                            <constraint firstItem="f1K-ZI-H6r" firstAttribute="top" relation="lessThanOrEqual" secondItem="e3n-v4-aLq" secondAttribute="bottom" constant="100" id="yvQ-bB-fkk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="whQ-vG-Ilt"/>
                         <connections>
@@ -500,6 +492,11 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="ZYi-2J-9fY">
                         <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="Ol0-2v-RVJ">
+                            <connections>
+                                <action selector="editButtonHasBeenPressed:" destination="5kY-ba-LDG" id="GqO-sY-w0v"/>
+                            </connections>
+                        </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="lYQ-mw-BSp">
                             <rect key="frame" x="117.66666666666669" y="7" width="179" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -519,6 +516,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editBarButton" destination="Ol0-2v-RVJ" id="aaI-s5-Vt5"/>
                         <outlet property="segmentedControl" destination="lYQ-mw-BSp" id="XVI-NN-WEl"/>
                         <outlet property="tableview" destination="eP2-fy-cl1" id="fYb-p0-67D"/>
                     </connections>

@@ -10,6 +10,7 @@ import RealmSwift
 
 class ListCreationViewController: UIViewController, UITextViewDelegate {
     
+    //MARK: - OUTLETS
     @IBOutlet var listTitleLabel: UILabel!
     @IBOutlet var ideaNumberLabel: UILabel!
     @IBOutlet var backButtonLabel: UIButton!
@@ -18,6 +19,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var cancelButtonLabel: UIButton!
     @IBOutlet var contentTextView: UITextView!
     
+    //MARK: - VAR, ETC.
     var placeholderLabel: UILabel!
     var currentIdeaList: IdeaStore!
     var currentIdea: Idea!
@@ -25,9 +27,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     // Initialize haptic feeback generator
     let impact = UIImpactFeedbackGenerator(style: UIImpactFeedbackStyle.medium)
     
-    
+    //MARK: - ACTIONS
     @IBAction func nextButtonPressed(_ sender: Any) {
-        
         // Haptic feedback action
         impact.impactOccurred()
         
@@ -45,7 +46,6 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func backButtonPressed(_ sender: Any) {
-        
         // Haptic feedback action
         impact.impactOccurred()
         
@@ -89,21 +89,18 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     @IBAction func cancelButtonPressed(_ sender: Any) {
-        guard contentTextView.text.isEmpty else {
-            let alert = UIAlertController.init(title: Constant.Alert.cancelTitle, message: Constant.Alert.cancelMessage, preferredStyle: .alert)
-            let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (action) in
-                self.presentedViewController?.dismiss(animated: false, completion: nil)
-            }
-            let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
-                self.presentedViewController?.dismiss(animated: false, completion: nil)
-                self.dismiss(animated: true, completion: nil)
-            })
-            alert.addAction(yesAction)
-            alert.addAction(noAction)
-            self.present(alert, animated: true, completion: nil)
-            return
+        // Yes/No Alert View
+        let alert = UIAlertController.init(title: Constant.Alert.cancelTitle, message: Constant.Alert.cancelMessage, preferredStyle: .alert)
+        let noAction = UIAlertAction(title: Constant.Alert.no, style: .default) { (action) in
+            self.presentedViewController?.dismiss(animated: false, completion: nil)
         }
-        self.dismiss(animated: true, completion: nil)
+        let yesAction = UIAlertAction(title: Constant.Alert.yes, style: .default, handler: { (UIAlertAction) in
+            self.presentedViewController?.dismiss(animated: false, completion: nil)
+            self.dismiss(animated: true, completion: nil)
+        })
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func finishButtonPressed(_ sender: Any) {
@@ -143,6 +140,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         contentTextView.resignFirstResponder()
     }
     
+    //MARK: - VC LIFECYCLE METHODS
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         navigationController?.setNavigationBarHidden(true, animated: false)

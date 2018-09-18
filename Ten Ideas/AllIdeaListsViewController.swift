@@ -15,6 +15,8 @@ class AllIdeaListsViewController: UITableViewController {
     @IBOutlet var tableview: UITableView!
     
     @IBOutlet var segmentedControl: UISegmentedControl!
+    //FIXME: PROGRAMMATIC EDIT BUTTON THAT DISAPPEARS FOR BOOKMARK VIEW
+    @IBOutlet var editBarButton: UIBarButtonItem!
     
     var tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
     var tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{$0.text < $1.text}
@@ -31,9 +33,18 @@ class AllIdeaListsViewController: UITableViewController {
 
         tableview.reloadData()
     }
+    @IBAction func editButtonHasBeenPressed(_ sender: Any) {
+        tableview.setEditing(true, animated: true)
+    }
     
     @IBAction func doneButtonPressed(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        
+        if tableview.isEditing {
+            tableview.setEditing(false, animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
+        
     }
     
     struct ListFetch {
@@ -52,6 +63,7 @@ class AllIdeaListsViewController: UITableViewController {
         for (key,value) in tableviewDataIdeaStore {
             listFetchArray.append(ListFetch(title: key, content: value))
         }
+        listFetchArray = listFetchArray.sorted{$0.title < $1.title}
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -87,6 +99,7 @@ class AllIdeaListsViewController: UITableViewController {
         default:
             break
         }
+        // Allows for exapandable row hts.
         cell.textLabel?.numberOfLines = 0
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -98,7 +111,6 @@ class AllIdeaListsViewController: UITableViewController {
             // Get cell label
             let indexPath = tableview.indexPathForSelectedRow
             let currentCell = tableview.cellForRow(at: indexPath!) as UITableViewCell?
-            
             if let cellText = currentCell?.textLabel?.text {
                 objectTitleToPass = cellText
             }
@@ -106,16 +118,14 @@ class AllIdeaListsViewController: UITableViewController {
         }
     }
     
+    // Swipe left to delete list
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let listTitle = listFetchArray[indexPath.row].title
             IdeaStore.deleteIdeaStoreObject(withTitle: listTitle)
-            
             tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
             tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
-            print(indexPath)
             tableView.deleteRows(at: [indexPath], with: .left)
-            //FIXME: - not deleting bookmarks related to deleted list in favorites. May need to break out favorites tableview on sep VC.
         }
     }
     

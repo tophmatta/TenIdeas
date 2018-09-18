@@ -91,7 +91,6 @@ class IdeaStore: Object {
             
             // Delete all ideas associated to IdeaStore (was originally only deleting IdeaStore
             // and the assoc. Ideas would still be available, therefore had to delete them separately)
-            print("all ideas: \(ideaStoreToDelete.allIdeas)")
             for item in ideaStoreToDelete.allIdeas {
                 realm.delete(realm.objects(Idea.self).filter("text == %@",item.text).first!)
             }

@@ -14,7 +14,6 @@ class SettingsViewController: UIViewController {
     @IBOutlet var doneButtonLabel: UIButton!
     @IBOutlet var deleteAllListsButtonLabel: UIButton!
     
-    
     @IBAction func deleteAllListsButtonPressed(_ sender: Any) {
         
         let alert = UIAlertController.init(title: "Delete All Lists", message: "Are you 100% sure?", preferredStyle: .alert)

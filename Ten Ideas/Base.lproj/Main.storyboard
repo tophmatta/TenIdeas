@@ -215,7 +215,9 @@
                                     <constraint firstAttribute="height" constant="49" id="s9o-kg-IrY"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="31"/>
-                                <state key="normal" title="Delete All Lists"/>
+                                <state key="normal" title="Delete All Lists">
+                                    <color key="titleColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <connections>
                                     <action selector="deleteAllListsButtonPressed:" destination="5eq-pn-SKV" eventType="touchUpInside" id="bYx-aI-JCb"/>
                                 </connections>
@@ -492,11 +494,6 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="ZYi-2J-9fY">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" title="Edit" id="Ol0-2v-RVJ">
-                            <connections>
-                                <action selector="editButtonHasBeenPressed:" destination="5kY-ba-LDG" id="GqO-sY-w0v"/>
-                            </connections>
-                        </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="lYQ-mw-BSp">
                             <rect key="frame" x="117.66666666666669" y="7" width="179" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -509,14 +506,10 @@
                                 <action selector="segmentValueChanged:" destination="5kY-ba-LDG" eventType="valueChanged" id="TWl-WD-Nlk"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="uOk-S0-Fcw">
-                            <connections>
-                                <action selector="doneButtonPressed:" destination="5kY-ba-LDG" id="Xkv-yj-aXM"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="uOk-S0-Fcw"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="editBarButton" destination="Ol0-2v-RVJ" id="aaI-s5-Vt5"/>
+                        <outlet property="navBar" destination="ZYi-2J-9fY" id="k3J-97-6Sl"/>
                         <outlet property="segmentedControl" destination="lYQ-mw-BSp" id="XVI-NN-WEl"/>
                         <outlet property="tableview" destination="eP2-fy-cl1" id="fYb-p0-67D"/>
                     </connections>

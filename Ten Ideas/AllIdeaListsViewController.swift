@@ -90,7 +90,6 @@ class AllIdeaListsViewController: UITableViewController {
         }
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         
@@ -155,6 +154,8 @@ class AllIdeaListsViewController: UITableViewController {
             cell.textLabel?.text = tableviewDataBookmarkedIdeas[indexPath.row].text
             cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .ultraLight)
             cell.selectionStyle = .none
+            cell.isUserInteractionEnabled = false
+            cell.selectionStyle = .none
         default:
             break
         }
@@ -179,7 +180,6 @@ class AllIdeaListsViewController: UITableViewController {
     
     // Swipe left to delete list
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
         if segmentedControl.selectedSegmentIndex == 0 && editingStyle == .delete {
             let listTitle = listFetchArray[indexPath.row].title
             IdeaStore.deleteIdeaStoreObject(withTitle: listTitle)
@@ -187,9 +187,17 @@ class AllIdeaListsViewController: UITableViewController {
             tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
             tableView.deleteRows(at: [indexPath], with: .left)
         }
-        
     }
     
+    // Only allows swipe to delete on tableview of all lists
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        if segmentedControl.selectedSegmentIndex == 1 {
+            return UITableViewCellEditingStyle.none
+        }
+        return UITableViewCellEditingStyle.delete
+    }
+    
+    // Passes data prior to segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "itemized" {
             let vc = segue.destination as! ItemizedIdeaViewController

@@ -130,9 +130,11 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
                 IdeaStore.save(object: self.currentIdeaList)
             })
         })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         alert.addTextField(configurationHandler: nil)
         alert.addAction(yesUpdateAction)
         alert.addAction(noAction)
+        alert.addAction(cancelAction)
         self.present(alert, animated: true)
     }
     

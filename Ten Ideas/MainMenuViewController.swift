@@ -9,7 +9,15 @@
 import UIKit
 import RealmSwift
 
-class MainMenuViewController: UIViewController {
+protocol MainMenuViewControllerDelegate: class {
+    func didRunAnimation() -> Bool
+}
+
+extension MainMenuViewControllerDelegate {
+    func didRunAnimation() {}
+}
+
+class MainMenuViewController: UIViewController, MainMenuViewControllerDelegate {
     
     let impact = UIImpactFeedbackGenerator()
     var hasRunAnimation:Bool?
@@ -28,6 +36,8 @@ class MainMenuViewController: UIViewController {
     @IBOutlet var yellowTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var blueTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var redTrailingConstraint: NSLayoutConstraint!
+    
+    weak var delegate: MainMenuViewControllerDelegate?
     
     //MARK: - IB ACTIONS
     @IBAction func createNewButtonPressed(_ sender: Any) {
@@ -55,6 +65,8 @@ class MainMenuViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         
+        self.delegate = self
+        
         if hasRunAnimation == nil {
             let screenWidth = view.frame.width
             
@@ -68,6 +80,7 @@ class MainMenuViewController: UIViewController {
             settingsButtonLabel.alpha = 0
             tenSqaureView.alpha = 0
             iLabel.alpha = 0
+            delegate?.didRunAnimation()
             
         }
     }
@@ -97,6 +110,11 @@ class MainMenuViewController: UIViewController {
             
             hasRunAnimation = true
         }
+    }
+    
+    func didRunAnimation() {
+        print("didRunAnimation")
+        hasRunAnimation = true
     }
     
     //MARK: - ANIMATIONS

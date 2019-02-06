@@ -10,11 +10,11 @@ import UIKit
 import RealmSwift
 
 protocol MainMenuViewControllerDelegate: class {
-    func didRunAnimation() -> Bool
+    func didRunAnimation()
 }
 
 extension MainMenuViewControllerDelegate {
-    func didRunAnimation() {}
+    func didRunAnimation(){}
 }
 
 class MainMenuViewController: UIViewController, MainMenuViewControllerDelegate {

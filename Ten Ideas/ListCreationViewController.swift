@@ -159,11 +159,11 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         
         // Check if IdeaStore needs to be instantiated
         if navigationController?.viewControllers.count == 1 {
-            checkForIdeaStore()
+            createIdeaStore()
         } else {
             listTitleLabel.text = currentIdeaList.ideaListTitle
         }
-        updateUI(for: currentIdea.index)
+        updateButtonLabels(for: currentIdea.index)
         formatContentTextViewParameters()
         if ideaIsAtIndex() {
             contentTextView.text = currentIdea.text
@@ -175,22 +175,29 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     // MARK:- IDEA HANDLERS/INITIALIZERS
     
     // Check if first VC on Nav stack and handle IdeaStore appropriately
-    func checkForIdeaStore(){
+    func createIdeaStore(){
         // Create instances for
         currentIdeaList = IdeaStore()
         currentIdea = Idea()
+        self.getListNumber()
+    }
+    
+    // Checks realm lib for last list number created
+    func getListNumber() {
         if let fetchedListNumber = IdeaStore.fetchLastListNumber() {
             // Update object property and add 1 to last number
             currentIdeaList.ideaListNumber.value = fetchedListNumber + 1
-            // Update UI
-            listTitleLabel.text = "list \(currentIdeaList.ideaListNumber.value ?? 0)"
-            currentIdeaList.ideaListTitle = listTitleLabel.text ?? "#"
         } else {
             // For default list number 1
             currentIdeaList.ideaListNumber.value = 1
-            listTitleLabel.text = "list \(currentIdeaList.ideaListNumber.value!)"
-            currentIdeaList.ideaListTitle = listTitleLabel.text!
         }
+        let currentIdeaListNumber = currentIdeaList.ideaListNumber.value
+        self.updateListLabelWithFetched(currentIdeaListNumber)
+    }
+    
+    func updateListLabelWithFetched(_ listNumber: Int?) {
+        listTitleLabel.text = "list \(currentIdeaList.ideaListNumber.value ?? 0)"
+        currentIdeaList.ideaListTitle = listTitleLabel.text ?? "#"
     }
     
     // Persisting already created ideas when navigation through flow
@@ -230,7 +237,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     // MARK:- UI ELEMENTS METHODS
     
     // Update index on current view & prepare indices on proximity views
-    func updateUI(for index:Int){
+    func updateButtonLabels(for index:Int){
         switch index {
         case 1:
             backButtonLabel.isHidden = true

@@ -114,8 +114,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
             self.dismiss(animated: true, completion: {
                 // Update idea list title property with title label text
                 self.currentIdeaList.ideaListTitle = self.listTitleLabel.text ?? "error"
-                // Save to realm db
-                IdeaStore.save(object: self.currentIdeaList)
+                // Add to realm db
+                IdeaStore.add(object: self.currentIdeaList)
             })
         }
         let yesUpdateAction = UIAlertAction(title: Constant.Alert.yesUpdate, style: .default, handler: { (UIAlertAction) in
@@ -126,8 +126,8 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
                     self.currentIdeaList.ideaListTitle = textfieldText
                     self.currentIdeaList.ideaListNumber.value = nil
                 }
-                // Save to realm db
-                IdeaStore.save(object: self.currentIdeaList)
+                // Add to realm db
+                IdeaStore.add(object: self.currentIdeaList)
             })
         })
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)

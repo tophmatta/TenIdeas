@@ -9,15 +9,7 @@
 import UIKit
 import RealmSwift
 
-protocol MainMenuViewControllerDelegate: class {
-    func didRunAnimation()
-}
-
-extension MainMenuViewControllerDelegate {
-    func didRunAnimation(){}
-}
-
-class MainMenuViewController: UIViewController, MainMenuViewControllerDelegate {
+class MainMenuViewController: UIViewController {
     
     let impact = UIImpactFeedbackGenerator()
     var hasRunAnimation:Bool?
@@ -37,8 +29,6 @@ class MainMenuViewController: UIViewController, MainMenuViewControllerDelegate {
     @IBOutlet var blueTrailingConstraint: NSLayoutConstraint!
     @IBOutlet var redTrailingConstraint: NSLayoutConstraint!
     
-    weak var delegate: MainMenuViewControllerDelegate?
-    
     //MARK: - IB ACTIONS
     @IBAction func createNewButtonPressed(_ sender: Any) {
         let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
@@ -55,17 +45,16 @@ class MainMenuViewController: UIViewController, MainMenuViewControllerDelegate {
             })
             alert.addAction(okAction)
             self.present(alert, animated: true, completion: nil)
-        } else {
-            let destination = self.storyboard?.instantiateViewController(withIdentifier: "random") as! RandomReviewViewController
-            self.show(destination, sender: self)
+            
+            return
         }
+        let destination = self.storyboard?.instantiateViewController(withIdentifier: "random") as! RandomReviewViewController
+        self.show(destination, sender: self)
     }
     
     //MARK: - VC LIFECYCLE METHODS
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
-        
-        self.delegate = self
         
         if hasRunAnimation == nil {
             let screenWidth = view.frame.width
@@ -80,8 +69,6 @@ class MainMenuViewController: UIViewController, MainMenuViewControllerDelegate {
             settingsButtonLabel.alpha = 0
             tenSqaureView.alpha = 0
             iLabel.alpha = 0
-            delegate?.didRunAnimation()
-            
         }
     }
     
@@ -112,12 +99,9 @@ class MainMenuViewController: UIViewController, MainMenuViewControllerDelegate {
         }
     }
     
-    func didRunAnimation() {
-        print("didRunAnimation")
-        hasRunAnimation = true
-    }
-    
     //MARK: - ANIMATIONS
+    
+    //TODO: - genericize these 3 fade in functions
     func fadeIn(buttonLabel: UIButton, withDelay delay: Double){
         UIView.animate(withDuration: 2.0,
                        delay: delay,

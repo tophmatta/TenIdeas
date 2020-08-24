@@ -33,7 +33,7 @@ class AllIdeaListsViewController: UITableViewController {
     var doneButton:UIBarButtonItem!
     
     // Object that prepares Realm dictionary data into
-    // objects to bedisplayed by the tableview
+    // objects to be displayed by the tableview
     struct ListFetch {
         var title: String
         var content: List<Idea>

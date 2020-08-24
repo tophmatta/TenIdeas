@@ -36,8 +36,8 @@ class IdeaStore: Object {
         return lastListNumber
     }
     
-    // Save object to realm
-    static func save(object: IdeaStore){
+    // Add object to realm
+    static func add(object: IdeaStore){
         let realm = try! Realm()
         try! realm.write {
             realm.add(object)

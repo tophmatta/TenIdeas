@@ -12,7 +12,7 @@ import RealmSwift
 class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // data from AllIdeasViewController
-    var passedReviewIdeaStore:IdeaStore!
+    var passedReviewIdeaStore: IdeaStore!
     
     @IBOutlet var tableview: UITableView!
     
@@ -21,7 +21,14 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
         self.title = passedReviewIdeaStore.ideaListTitle
         tableview.separatorColor = UIColor.black
         
+        let navAddButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(ItemizedIdeaViewController.addListItem))
+        self.navigationItem.setRightBarButton(navAddButton, animated: true)
     }
+    
+    @objc private func addListItem() {
+        print("added item")
+    }
+    
     
     // MARK: - DELEGATE/DATASOURCE METHODS
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -51,16 +58,48 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
                 try! realm.write {
                     passedReviewIdeaStore.allIdeas[indexPath.row].bookmark = false
                 }
-            } else {
-                cell.accessoryType = .checkmark
-                let realm = try! Realm()
-                try! realm.write {
-                    passedReviewIdeaStore.allIdeas[indexPath.row].bookmark = true
-                }
+                return
+            }
+            
+            cell.accessoryType = .checkmark
+            let realm = try! Realm()
+            try! realm.write {
+                passedReviewIdeaStore.allIdeas[indexPath.row].bookmark = true
             }
         }
-        
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let editAction = UITableViewRowAction(style: .default, title: "Edit", handler: { (action, indexPath) in
+            let alert = UIAlertController(title: "", message: "Edit list item", preferredStyle: .alert)
+            alert.addTextField { (textfield) in
+                textfield.text = self.passedReviewIdeaStore.allIdeas[indexPath.row].text
+            }
+            alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
+                let realm = try! Realm()
+                try! realm.write {
+                    self.passedReviewIdeaStore.allIdeas[indexPath.row].text = alert.textFields!.first!.text!
+                }
+                self.tableview.reloadRows(at: [indexPath], with: .fade)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: false)
+        })
+        editAction.backgroundColor = UIColor.darkGray
+
+        let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
+            let realm = try! Realm()
+            try! realm.write {
+                self.passedReviewIdeaStore.allIdeas.remove(at: indexPath.row)
+            }
+            tableView.reloadData()
+        })
+
+        return [deleteAction, editAction]
+    }
 
 }

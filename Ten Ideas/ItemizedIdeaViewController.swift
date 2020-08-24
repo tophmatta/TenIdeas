@@ -25,8 +25,23 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationItem.setRightBarButton(navAddButton, animated: true)
     }
     
+    // Ad hoc add idea to detail view list
     @objc private func addListItem() {
-        print("added item")
+        let alert = UIAlertController(title: "", message: "Add list item", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
+        alert.addAction(UIAlertAction(title: "Add", style: .default, handler: { (updateAction) in
+            let realm = try! Realm()
+            let index = self.passedReviewIdeaStore.allIdeas.count + 1
+            try! realm.write {
+                let idea = Idea(text: alert.textFields!.first!.text!, bookmark: false, index: index)
+                self.tableview.beginUpdates()
+                self.passedReviewIdeaStore.allIdeas.append(idea)
+                self.tableview.insertRows(at: [IndexPath(row: index - 1, section: 0)], with: .fade)
+                self.tableview.endUpdates()
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: false)
     }
     
     

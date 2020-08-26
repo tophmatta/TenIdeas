@@ -19,60 +19,31 @@ class AllIdeaListsViewController: UITableViewController {
     @IBOutlet var segmentedControl: UISegmentedControl!
     
     // Data buckets
-    var tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
-    var tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{$0.text < $1.text}
+    private var tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
+    private var tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{ $0.text < $1.text }
     
     // Takes Realm dict. data and stores it as key/value pairs
-    var listFetchArray = [ListFetch]()
+    private var listFetchArray = [ListFetch]()
     
     // Passes title to detail view to load list data on ItemizedIdeaVC
-    var objectTitleToPass:String!
+    private var objectTitleToPass:String!
     
     // Default bar button items
-    var editButton:UIBarButtonItem!
-    var doneButton:UIBarButtonItem!
+    private var doneButton:UIBarButtonItem!
     
-    // Object that prepares Realm dictionary data into
+    // Object that bridges/prepares Realm dictionary data into
     // objects to be displayed by the tableview
-    struct ListFetch {
+    private struct ListFetch {
         var title: String
         var content: List<Idea>
     }
     
     //MARK: - ACTION METHODS
     @IBAction func segmentValueChanged(_ sender: Any) {
-        
         // Re-fetches newly favorited/unfavorited ideas and refreshes
-        tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{$0.text < $1.text}
+        tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas().sorted{ $0.text < $1.text }
         tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
-
         tableview.reloadData()
-        
-        // 'Edit' button disappears when favorites/bookmark segment showing
-        if segmentedControl.selectedSegmentIndex == 1 {
-            self.navBar.leftBarButtonItem = nil
-        } else {
-            self.navBar.leftBarButtonItem = editButton
-        }
-    }
-    
-    @objc func editButtonPressed(){
-        tableview.setEditing(true, animated: true)
-        segmentedControl.isEnabled = false
-        
-        let doneEditingButton = UIBarButtonItem(barButtonSystemItem: .done,
-                                                target: self,
-                                                action: #selector(AllIdeaListsViewController.doneEditingButtonPressed))
-        self.navBar.leftBarButtonItem = doneEditingButton
-        self.navBar.rightBarButtonItem = nil
-    }
-    
-    // Done button action - during editing
-    @objc func doneEditingButtonPressed(){
-        tableview.setEditing(false, animated: true)
-        segmentedControl.isEnabled = true
-        self.navBar.leftBarButtonItem = editButton
-        self.navBar.rightBarButtonItem = doneButton
     }
     
     // Done button action - default
@@ -80,49 +51,41 @@ class AllIdeaListsViewController: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        
-        if editing {
-            navBar.leftBarButtonItem?.title = "Done"
-        } else {
-            navBar.leftBarButtonItem?.title = "Edit"
-        }
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
         
         tableview.separatorColor = UIColor.black
         
-        prepareIdeaStoreTableviewData()
-        configureBarButtonItems()
+        self.refresh()
+        self.configureBarButtonItems()
     }
     
     // Splits out Realm dictionary into objects
-    func prepareIdeaStoreTableviewData(){
+    private func prepareIdeaStoreTableviewData(){
         // Must recalculate each time view appears to refresh changes
         listFetchArray.removeAll()
         
         for (key,value) in tableviewDataIdeaStore {
             listFetchArray.append(ListFetch(title: key, content: value))
         }
-        listFetchArray = listFetchArray.sorted{$0.title < $1.title}
+        listFetchArray = listFetchArray.sorted{ $0.title < $1.title }
     }
     
-    // Initializes default bar button items
-    func configureBarButtonItems(){
+    private func configureBarButtonItems(){
         // Configure default nav bar buttons
-        editButton = UIBarButtonItem(barButtonSystemItem: .edit,
-                                     target: self,
-                                     action: #selector(AllIdeaListsViewController.editButtonPressed))
         doneButton = UIBarButtonItem(barButtonSystemItem: .done,
                                      target: self,
                                      action: #selector(AllIdeaListsViewController.doneButtonPressed))
-        self.navBar.leftBarButtonItem = editButton
         self.navBar.rightBarButtonItem = doneButton
     }
     
+    private func refresh() {
+        self.tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
+        self.tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
+        self.prepareIdeaStoreTableviewData()
+    }
+    
+    //MARK: - TABLEVIEW DATASOURCE/DELEGATE METHODS
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // default rows
         var tableviewCount = tableviewDataIdeaStore.count
@@ -140,7 +103,6 @@ class AllIdeaListsViewController: UITableViewController {
         return tableviewCount
     }
     
-    //MARK: - TABLEVIEW DATASOURCE/DELEGATE METHODS
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Create an instance of UITableViewCell, with default appearance
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "UITableViewCell")
@@ -178,30 +140,48 @@ class AllIdeaListsViewController: UITableViewController {
         }
     }
     
-    // Swipe left to delete list
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if segmentedControl.selectedSegmentIndex == 0 && editingStyle == .delete {
-            let listTitle = listFetchArray[indexPath.row].title
-            IdeaStore.deleteIdeaStoreObject(withTitle: listTitle)
-            tableviewDataIdeaStore = IdeaStore.fetchAllListsWithTitle()
-            tableviewDataBookmarkedIdeas = IdeaStore.fetchAllBookmarkedIdeas()
-            tableView.deleteRows(at: [indexPath], with: .left)
-        }
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return segmentedControl.selectedSegmentIndex == 0 ? UITableViewCellEditingStyle.delete : UITableViewCellEditingStyle.none
     }
     
-    // Only allows swipe to delete on tableview of all lists
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        if segmentedControl.selectedSegmentIndex == 1 {
-            return UITableViewCellEditingStyle.none
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        if segmentedControl.selectedSegmentIndex == 0 {
+            let currentCell = self.tableview.cellForRow(at: indexPath) as UITableViewCell?
+            
+            let editAction = UITableViewRowAction(style: .default, title: "Rename", handler: { (action, indexPath) in
+                let currentCellText = currentCell!.textLabel!.text!
+                let alert = UIAlertController(title: "", message: "Rename list", preferredStyle: .alert)
+                    
+                alert.addTextField { (textfield) in
+                    textfield.text = currentCellText
+                }
+                alert.addAction(UIAlertAction(title: "Confirm", style: .default, handler: { (updateAction) in
+                    // abstract this realm name update to ideastore class
+                    IdeaStore.updateIdeaListTitle(currentCellText, newText: alert.textFields!.first!.text!)
+                    self.refresh()
+                    tableView.reloadRows(at: [indexPath], with: .fade)
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: false)
+        })
+            editAction.backgroundColor = UIColor.darkGray
+            
+            let deleteAction = UITableViewRowAction(style: .default, title: "Delete", handler: { (action, indexPath) in
+                IdeaStore.deleteIdeaStoreObject(withTitle: currentCell!.textLabel!.text!)
+                self.refresh()
+                tableView.deleteRows(at: [indexPath], with: .left)
+            })
+
+            return [deleteAction, editAction]
         }
-        return UITableViewCellEditingStyle.delete
+        return nil
     }
     
     // Passes data prior to segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "itemized" {
             let vc = segue.destination as! ItemizedIdeaViewController
-            vc.passedReviewIdeaStore = IdeaStore.fetchIdeaStoreForDetailView(with: objectTitleToPass)
+            vc.passedReviewIdeaStore = IdeaStore.fetchIdeaStore(with: objectTitleToPass)
         }
     }
 }

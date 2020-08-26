@@ -95,10 +95,7 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
                 textfield.text = self.passedReviewIdeaStore.allIdeas[indexPath.row].text
             }
             alert.addAction(UIAlertAction(title: "Update", style: .default, handler: { (updateAction) in
-                let realm = try! Realm()
-                try! realm.write {
-                    self.passedReviewIdeaStore.allIdeas[indexPath.row].text = alert.textFields!.first!.text!
-                }
+                Idea.updateIdeaText(&self.passedReviewIdeaStore.allIdeas[indexPath.row].text, newText: alert.textFields!.first!.text!)
                 self.tableview.reloadRows(at: [indexPath], with: .fade)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -111,10 +108,9 @@ class ItemizedIdeaViewController: UIViewController, UITableViewDelegate, UITable
             try! realm.write {
                 self.passedReviewIdeaStore.allIdeas.remove(at: indexPath.row)
             }
-            tableView.reloadData()
+            self.tableview.reloadRows(at: [indexPath], with: .fade)
         })
 
         return [deleteAction, editAction]
     }
-
 }

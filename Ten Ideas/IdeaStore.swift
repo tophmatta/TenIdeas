@@ -20,8 +20,6 @@ class IdeaStore: Object {
         self.ideaListTitle = ideaListTitle
     }
     
-    // Grabs last non nil integer for new list seq - return type optional bc creation of very first list will return nil
-    // and trigger other initial conditions
     static func fetchLastListNumber() -> Int? {
         let realm = try! Realm()
         let ideaStores = realm.objects(IdeaStore.self)
@@ -36,7 +34,6 @@ class IdeaStore: Object {
         return lastListNumber
     }
     
-    // Add object to realm
     static func add(object: IdeaStore){
         let realm = try! Realm()
         try! realm.write {
@@ -60,7 +57,7 @@ class IdeaStore: Object {
     }
     
     // Prepares data for itemized table view
-    static func fetchIdeaStoreForDetailView(with title: String) -> IdeaStore {
+    static func fetchIdeaStore(with title: String) -> IdeaStore {
         let realm = try! Realm()
         let ideaStore = realm.objects(IdeaStore.self).filter("ideaListTitle == %@", title)[0]
         return ideaStore
@@ -73,7 +70,6 @@ class IdeaStore: Object {
         return arrayOfIdeas
     }
     
-    // Delete all objects in DB
     static func deleteAllRealmObjects(){
         let realm = try! Realm()
         try! realm.write {
@@ -81,7 +77,6 @@ class IdeaStore: Object {
         }
     }
     
-    // Delete IdeaStore at specified index
     static func deleteIdeaStoreObject(withTitle listNameToDelete: String) {
         let realm = try! Realm()
         
@@ -99,14 +94,23 @@ class IdeaStore: Object {
         }
     }
     
-    // Idea Store count for Rev. Random VC
+    static func updateIdeaListTitle(_ ideaListTitle: String, newText: String) {
+        let realm = try! Realm()
+        let ideaStore = IdeaStore.fetchIdeaStore(with: ideaListTitle)
+        
+        try! realm.write {
+            ideaStore.ideaListTitle = newText
+        }
+
+    }
+    
+    
     static func hasReachedTenCount() -> Bool {
         let realm = try! Realm()
         let ideaStoreCount = realm.objects(IdeaStore.self).count
         return ideaStoreCount >= 10
     }
     
-    // Fetch random Idea Store for random review
     static func fetchRandomRealmIdeaStoreList() -> IdeaStore {
         let realm = try! Realm()
         let listOfIdeaTitles = Array(realm.objects(IdeaStore.self).map({$0.ideaListTitle}))
@@ -115,6 +119,5 @@ class IdeaStore: Object {
         let randomIdeaStoreObject = realm.objects(IdeaStore.self).filter("ideaListTitle == %@", randomIdeaStoreTitle)[0]
         return randomIdeaStoreObject
     }
-    
 }
 

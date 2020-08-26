@@ -21,4 +21,12 @@ class Idea: Object {
         self.bookmark = bookmark
         self.index = index
     }
+    
+    static func updateIdeaText(_ currentText: inout String, newText: String) {
+        let realm = try! Realm()
+        try! realm.write {
+            currentText = newText
+            print(currentText)
+        }
+    }
 }

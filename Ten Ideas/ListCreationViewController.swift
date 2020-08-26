@@ -20,12 +20,12 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var contentTextView: UITextView!
     
     //MARK: - VAR, ETC.
-    var placeholderLabel: UILabel!
-    var currentIdeaList: IdeaStore!
-    var currentIdea: Idea!
+    private var placeholderLabel: UILabel!
+    private var currentIdeaList: IdeaStore!
+    private var currentIdea: Idea!
     
     // Initialize haptic feeback generator
-    let impact = UIImpactFeedbackGenerator(style: UIImpactFeedbackStyle.medium)
+    private let impact = UIImpactFeedbackGenerator(style: UIImpactFeedbackStyle.medium)
     
     //MARK: - ACTIONS
     @IBAction func nextButtonPressed(_ sender: Any) {
@@ -175,7 +175,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     // MARK:- IDEA HANDLERS/INITIALIZERS
     
     // Check if first VC on Nav stack and handle IdeaStore appropriately
-    func createIdeaStore(){
+    private func createIdeaStore(){
         // Create instances for
         currentIdeaList = IdeaStore()
         currentIdea = Idea()
@@ -183,7 +183,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     // Checks realm lib for last list number created
-    func getListNumber() {
+    private func getListNumber() {
         if let fetchedListNumber = IdeaStore.fetchLastListNumber() {
             // Update object property and add 1 to last number
             currentIdeaList.ideaListNumber.value = fetchedListNumber + 1
@@ -195,7 +195,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
         self.updateListLabelWithFetched(currentIdeaListNumber)
     }
     
-    func updateListLabelWithFetched(_ listNumber: Int?) {
+    private func updateListLabelWithFetched(_ listNumber: Int?) {
         listTitleLabel.text = "list \(currentIdeaList.ideaListNumber.value ?? 0)"
         currentIdeaList.ideaListTitle = listTitleLabel.text ?? "#"
     }
@@ -203,7 +203,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     // Persisting already created ideas when navigation through flow
     // Check array and if already created, grab idea at currentIdea.index
     // *Note: allIdeas index is n-1 currentIdea.index
-    func ideaIsAtIndex() -> Bool {
+    private func ideaIsAtIndex() -> Bool {
         let index = currentIdea.index
         if currentIdeaList.allIdeas.isEmpty || !currentIdeaList.allIdeas.indices.contains(index - 1) {
             return false
@@ -212,12 +212,12 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     // Take content text view text and append to [Idea]
-    func appendIdea(){
+    private func appendIdea(){
         currentIdea.text  = contentTextView.text
         currentIdeaList.allIdeas.append(currentIdea)
     }
     
-    func pushNextViewOntoStack(){
+    private func pushNextViewOntoStack(){
         let destination = self.storyboard?.instantiateViewController(withIdentifier: "lvc") as! ListCreationViewController
         // See if next view already has idea object at index
         // Note: allIdeas index is n-1 currentIdea.index
@@ -237,7 +237,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     // MARK:- UI ELEMENTS METHODS
     
     // Update index on current view & prepare indices on proximity views
-    func updateButtonLabels(for index:Int){
+    private func updateButtonLabels(for index:Int){
         switch index {
         case 1:
             backButtonLabel.isHidden = true
@@ -253,7 +253,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     // Miscellaneous UI actions
-    func performMiscellaneousUIActions(){
+    private func performMiscellaneousUIActions(){
         contentTextView.delegate = self
         self.navigationItem.title = ""
         ideaNumberLabel.text = String(currentIdea.index)
@@ -264,7 +264,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
     
     // Content text view functionality
-    func formatContentTextViewParameters(){
+    private func formatContentTextViewParameters(){
         // Logic expands UITextview as words are entered
         let fixedWidth = contentTextView.frame.size.width
         let newSize = contentTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
@@ -306,6 +306,7 @@ class ListCreationViewController: UIViewController, UITextViewDelegate {
     }
 
     // MARK:- CONSTANTS
+    // TODO:- make own file and localize strings
     struct Constant {
         struct PlaceholderText {
             static let contentTextPlaceholder = "Start writing..."

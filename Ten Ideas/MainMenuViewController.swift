@@ -38,6 +38,9 @@ class MainMenuViewController: UIViewController {
     }
     
     @IBAction func randomButtonPressed(_ sender: Any) {
+        IdeaStore.convertExportDictToCsvFormat()
+        
+        
         if !IdeaStore.hasReachedTenCount() {
             let alert = UIAlertController.init(title: "Almost There!", message: "To randomly review old lists, you must first create 10", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default, handler: { (UIAlertAction) in

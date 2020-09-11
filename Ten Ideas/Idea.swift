@@ -14,6 +14,10 @@ class Idea: Object {
     @objc dynamic var bookmark: Bool = false
     @objc dynamic var index: Int = 1
     
+    public func formatForExportWith(_ parentListTitle: String) -> [String] {
+        return [parentListTitle, text, "\(bookmark)"]
+    }
+    
     // Convenience init necessary per Realm requirements
     convenience init(text: String, bookmark: Bool, index: Int){
         self.init()

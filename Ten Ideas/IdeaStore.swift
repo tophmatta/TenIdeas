@@ -42,15 +42,19 @@ class IdeaStore: Object {
     }
     
     // Prepares data for table view of lists themselves
-    static func fetchAllListsWithTitle() -> [String:List<Idea>] {
+    static func fetchAllListsWithTitle() -> [String : List<Idea>] {
         let realm = try! Realm()
-        let listOfIdeaLists = Array(realm.objects(IdeaStore.self).map{$0.allIdeas})
-        let listOfIdeaTitles = Array(realm.objects(IdeaStore.self).map{$0.ideaListTitle})
+        // array of just ideas
+        let lists = Array(realm.objects(IdeaStore.self).map{$0.allIdeas})
+        // array of just the titles
+        let titles = Array(realm.objects(IdeaStore.self).map{$0.ideaListTitle})
         
-        var dict = [String:List<Idea>]()
-        for i in 0..<listOfIdeaLists.count {
-            let title = listOfIdeaTitles[i]
-            let list = listOfIdeaLists[i]
+        var dict = [String : List<Idea>]()
+        
+        // maps title to respective list
+        for i in 0..<lists.count {
+            let title = titles[i]
+            let list = lists[i]
             dict[title] = list
         }
         return dict
@@ -83,7 +87,6 @@ class IdeaStore: Object {
         guard let ideaStoreToDelete = realm.objects(IdeaStore.self).filter("ideaListTitle == %@", listNameToDelete).first else { return }
         
         try! realm.write {
-            
             // Delete all ideas associated to IdeaStore (was originally only deleting IdeaStore
             // and the assoc. Ideas would still be available, therefore had to delete them separately)
             for item in ideaStoreToDelete.allIdeas {
@@ -104,7 +107,6 @@ class IdeaStore: Object {
 
     }
     
-    
     static func hasReachedTenCount() -> Bool {
         let realm = try! Realm()
         let ideaStoreCount = realm.objects(IdeaStore.self).count
@@ -118,6 +120,35 @@ class IdeaStore: Object {
         let randomIdeaStoreTitle = listOfIdeaTitles[randomNumber]
         let randomIdeaStoreObject = realm.objects(IdeaStore.self).filter("ideaListTitle == %@", randomIdeaStoreTitle)[0]
         return randomIdeaStoreObject
+    }
+    
+    // Convert from realm object to all strings
+    static func formatListsForExport(_ lists: [String : List<Idea>]) -> String {
+        // Prepend with header for CSV
+        var result = ["List Name", "List Item", "Favorited?"]
+        
+        lists.forEach { (list) in
+            let listTitle = list.key
+            let listItems = list.value
+
+            listItems.forEach { (item) in
+                let itemFormatted = item.formatForExportWith(listTitle)
+                result.append(contentsOf: itemFormatted)
+            }
+        }
+        let conResult = concatenateListStrings(result)
+        //TODO: - got the strings in the format i want. need to figure out row breaks so it shows up properly in excel
+        return conResult
+    }
+    
+    static func concatenateListStrings(_ listStrings: [String]) -> String {
+        return listStrings.map{$0 + ", "}.reduce("", +)
+    }
+        
+    static func convertExportDictToCsvFormat() {
+        let allListsRealmFormat = fetchAllListsWithTitle()
+        let allListsStringFormat = formatListsForExport(allListsRealmFormat)
+        print(allListsStringFormat)
     }
 }
 

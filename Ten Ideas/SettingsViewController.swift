@@ -46,8 +46,6 @@ class SettingsViewController: UIViewController {
         doneButtonLabel.layer.borderColor = UIColor.black.cgColor
         doneButtonLabel.layer.borderWidth = 1
         doneButtonLabel.layer.cornerRadius = 7
-        deleteAllListsButtonLabel.layer.borderColor = UIColor.black.cgColor
-        deleteAllListsButtonLabel.layer.borderWidth = 1
         deleteAllListsButtonLabel.layer.cornerRadius = 10
         
     }

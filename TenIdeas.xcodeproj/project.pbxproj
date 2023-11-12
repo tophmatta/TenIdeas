@@ -27,15 +27,13 @@
 
 /* Begin PBXFileReference section */
 		3CA1526FF2977A5A71BA3688 /* Pods_Ten_Ideas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ten_Ideas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		483C6582CD117B0D742AC86D /* Pods-Ten Ideas.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ten Ideas.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas.debug.xcconfig"; sourceTree = "<group>"; };
-		4B5C5424E8AD628B33654E3F /* Pods-Ten Ideas.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ten Ideas.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas.release.xcconfig"; sourceTree = "<group>"; };
 		6D163C2020C6175C0018B92E /* IdeaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeaStore.swift; sourceTree = "<group>"; };
 		6D802A8020F4309F000FF1F8 /* ListCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCreationViewController.swift; sourceTree = "<group>"; };
 		6D8C19ED213F62F200369544 /* RandomReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomReviewViewController.swift; sourceTree = "<group>"; };
 		6D9CECF52132152B00DA07D2 /* ItemizedIdeaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemizedIdeaViewController.swift; sourceTree = "<group>"; };
 		6DB2102C20C8CF3800C8020A /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		6DD05E88214B43670083E7D1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		6DD70F4920C0D90B00F6A762 /* Ten Ideas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ten Ideas.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DD70F4920C0D90B00F6A762 /* TenIdeas.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TenIdeas.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DD70F4C20C0D90B00F6A762 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6DD70F5120C0D90B00F6A762 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6DD70F5320C0D90D00F6A762 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,21 +66,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		5F215B9C57A25B0CE5F545E3 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				483C6582CD117B0D742AC86D /* Pods-Ten Ideas.debug.xcconfig */,
-				4B5C5424E8AD628B33654E3F /* Pods-Ten Ideas.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		6DD70F4020C0D90B00F6A762 = {
 			isa = PBXGroup;
 			children = (
 				6DD70F4B20C0D90B00F6A762 /* Ten Ideas */,
 				6DD70F4A20C0D90B00F6A762 /* Products */,
-				5F215B9C57A25B0CE5F545E3 /* Pods */,
 				27E184169116B14DC345CF36 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -90,7 +78,7 @@
 		6DD70F4A20C0D90B00F6A762 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6DD70F4920C0D90B00F6A762 /* Ten Ideas.app */,
+				6DD70F4920C0D90B00F6A762 /* TenIdeas.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,9 +109,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6DD70F4820C0D90B00F6A762 /* Ten Ideas */ = {
+		6DD70F4820C0D90B00F6A762 /* TenIdeas */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6DD70F5B20C0D90D00F6A762 /* Build configuration list for PBXNativeTarget "Ten Ideas" */;
+			buildConfigurationList = 6DD70F5B20C0D90D00F6A762 /* Build configuration list for PBXNativeTarget "TenIdeas" */;
 			buildPhases = (
 				122364731B072428AFC20053 /* [CP] Check Pods Manifest.lock */,
 				6DD70F4520C0D90B00F6A762 /* Sources */,
@@ -135,9 +123,9 @@
 			);
 			dependencies = (
 			);
-			name = "Ten Ideas";
+			name = TenIdeas;
 			productName = "Ten Ideas";
-			productReference = 6DD70F4920C0D90B00F6A762 /* Ten Ideas.app */;
+			productReference = 6DD70F4920C0D90B00F6A762 /* TenIdeas.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -155,7 +143,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6DD70F4420C0D90B00F6A762 /* Build configuration list for PBXProject "Ten Ideas" */;
+			buildConfigurationList = 6DD70F4420C0D90B00F6A762 /* Build configuration list for PBXProject "TenIdeas" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -168,7 +156,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6DD70F4820C0D90B00F6A762 /* Ten Ideas */,
+				6DD70F4820C0D90B00F6A762 /* TenIdeas */,
 			);
 		};
 /* End PBXProject section */
@@ -382,7 +370,6 @@
 		};
 		6DD70F5C20C0D90D00F6A762 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 483C6582CD117B0D742AC86D /* Pods-Ten Ideas.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -403,7 +390,6 @@
 		};
 		6DD70F5D20C0D90D00F6A762 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B5C5424E8AD628B33654E3F /* Pods-Ten Ideas.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -425,7 +411,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6DD70F4420C0D90B00F6A762 /* Build configuration list for PBXProject "Ten Ideas" */ = {
+		6DD70F4420C0D90B00F6A762 /* Build configuration list for PBXProject "TenIdeas" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6DD70F5920C0D90D00F6A762 /* Debug */,
@@ -434,7 +420,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6DD70F5B20C0D90D00F6A762 /* Build configuration list for PBXNativeTarget "Ten Ideas" */ = {
+		6DD70F5B20C0D90D00F6A762 /* Build configuration list for PBXNativeTarget "TenIdeas" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6DD70F5C20C0D90D00F6A762 /* Debug */,

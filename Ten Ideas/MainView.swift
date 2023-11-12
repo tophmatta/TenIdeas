@@ -25,7 +25,7 @@ struct MainView: View {
                                 Text("10i")
                             }
                             .systemFontUltraLight(size: 100)
-                            .offset(x: 18, y: 15)//	
+                            .offset(x: 18, y: 15)
                         }
                     }
                     .padding([.leading, .top], 40)

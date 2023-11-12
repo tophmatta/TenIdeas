@@ -1,6 +1,0 @@
-framework module Pods_Ten_Ideas {
-  umbrella header "Pods-Ten Ideas-umbrella.h"
-
-  export *
-  module * { export * }
-}

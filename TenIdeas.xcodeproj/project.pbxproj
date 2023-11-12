@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,14 +19,14 @@
 		6DD70F5720C0D90D00F6A762 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6DD70F5520C0D90D00F6A762 /* LaunchScreen.storyboard */; };
 		6DD70F5F20C0E0BF00F6A762 /* AllIdeaListsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD70F5E20C0E0BF00F6A762 /* AllIdeaListsViewController.swift */; };
 		6DD70F6120C0E42E00F6A762 /* Idea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DD70F6020C0E42E00F6A762 /* Idea.swift */; };
-		E92115AA23BB8B1424532724 /* Pods_Ten_Ideas.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CA1526FF2977A5A71BA3688 /* Pods_Ten_Ideas.framework */; };
 		F15B0F5A2AF967F200AEF0C0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15B0F592AF967F200AEF0C0 /* MainView.swift */; };
 		F15B0F5C2AF9698D00AEF0C0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F15B0F5B2AF9698D00AEF0C0 /* SettingsView.swift */; };
+		F1A6F2FB2B01940400B0AB7F /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F1A6F2FA2B01940400B0AB7F /* Realm */; };
+		F1A6F2FD2B01940400B0AB7F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F1A6F2FC2B01940400B0AB7F /* RealmSwift */; };
 		F1BD152D2B016B7800D1101F /* ButtonStyle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1BD152C2B016B7800D1101F /* ButtonStyle+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3CA1526FF2977A5A71BA3688 /* Pods_Ten_Ideas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ten_Ideas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D163C2020C6175C0018B92E /* IdeaStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdeaStore.swift; sourceTree = "<group>"; };
 		6D802A8020F4309F000FF1F8 /* ListCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCreationViewController.swift; sourceTree = "<group>"; };
 		6D8C19ED213F62F200369544 /* RandomReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomReviewViewController.swift; sourceTree = "<group>"; };
@@ -51,7 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E92115AA23BB8B1424532724 /* Pods_Ten_Ideas.framework in Frameworks */,
+				F1A6F2FD2B01940400B0AB7F /* RealmSwift in Frameworks */,
+				F1A6F2FB2B01940400B0AB7F /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +62,6 @@
 		27E184169116B14DC345CF36 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3CA1526FF2977A5A71BA3688 /* Pods_Ten_Ideas.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -113,17 +113,19 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6DD70F5B20C0D90D00F6A762 /* Build configuration list for PBXNativeTarget "TenIdeas" */;
 			buildPhases = (
-				122364731B072428AFC20053 /* [CP] Check Pods Manifest.lock */,
 				6DD70F4520C0D90B00F6A762 /* Sources */,
 				6DD70F4620C0D90B00F6A762 /* Frameworks */,
 				6DD70F4720C0D90B00F6A762 /* Resources */,
-				F7BA77323F97A0EE56981B0F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = TenIdeas;
+			packageProductDependencies = (
+				F1A6F2FA2B01940400B0AB7F /* Realm */,
+				F1A6F2FC2B01940400B0AB7F /* RealmSwift */,
+			);
 			productName = "Ten Ideas";
 			productReference = 6DD70F4920C0D90B00F6A762 /* TenIdeas.app */;
 			productType = "com.apple.product-type.application";
@@ -152,6 +154,9 @@
 				Base,
 			);
 			mainGroup = 6DD70F4020C0D90B00F6A762;
+			packageReferences = (
+				F1A6F2F92B01940400B0AB7F /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = 6DD70F4A20C0D90B00F6A762 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -173,44 +178,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		122364731B072428AFC20053 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Ten Ideas-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F7BA77323F97A0EE56981B0F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Ten Ideas/Pods-Ten Ideas-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6DD70F4520C0D90B00F6A762 /* Sources */ = {
@@ -305,7 +272,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -359,7 +326,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -430,6 +397,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F1A6F2F92B01940400B0AB7F /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F1A6F2FA2B01940400B0AB7F /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1A6F2F92B01940400B0AB7F /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		F1A6F2FC2B01940400B0AB7F /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F1A6F2F92B01940400B0AB7F /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6DD70F4120C0D90B00F6A762 /* Project object */;
 }
